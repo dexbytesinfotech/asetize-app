@@ -1,4 +1,4 @@
-# society_hub
+# asetize
 
 A new Flutter project.
 

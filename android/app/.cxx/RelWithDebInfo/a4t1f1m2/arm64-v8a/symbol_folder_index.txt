@@ -1,0 +1,1 @@
+/Users/ndbit-45/StudioProjects/asetize/asetize/build/app/intermediates/cxx/RelWithDebInfo/a4t1f1m2/obj/arm64-v8a

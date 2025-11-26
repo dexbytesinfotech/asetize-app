@@ -1,0 +1,1 @@
+enum PostStatusEnum { published }

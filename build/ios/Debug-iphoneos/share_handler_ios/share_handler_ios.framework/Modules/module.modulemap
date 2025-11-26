@@ -1,0 +1,11 @@
+framework module share_handler_ios {
+  umbrella header "share_handler_ios-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module share_handler_ios.Swift {
+  header "share_handler_ios-Swift.h"
+  requires objc
+}

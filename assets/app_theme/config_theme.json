@@ -1,0 +1,60 @@
+
+{
+  "homeBottomNavigationBar": {
+    "backgroundColor": "0xFF000000",
+    "activeIconColor": "0xFFE7F3A9",
+    "deActiveIconColor": "0xFFE7F3A9",
+    "activeMenuTextStyle": {
+      "fontSize": 12,
+      "color": "0xffE4B343"
+    },
+    "deActiveMenuTextStyle": {
+      "fontSize": 12,
+      "color": "0xFF607D8B"
+    },"elevation": 0.0,
+    "bottomMenuType": 0,
+    "menu_item": [
+
+      {
+        "activeIcon": "assets/images/bottom_menu_home_icon.svg",
+        "deActiveIcon": "assets/images/bottom_menu_home_icon.svg",
+        "label": "Home",
+        "backgroundColor": "0xFFDD2E37",
+        "menuPageId": "menu1",
+        "statusBarColors": "0xff212327"
+      },
+      {
+        "activeIcon": "assets/images/post_square_1.svg",
+        "deActiveIcon":"assets/images/post_square_1.svg",
+        "label": "Post",
+        "backgroundColor": "0xFFDD2E37",
+        "menuPageId": "menu2",
+        "statusBarColors": "0xff212327"
+      },
+      {
+        "activeIcon": "assets/images/bottom_menu_team_icon.svg",
+        "deActiveIcon":"assets/images/bottom_menu_team_icon.svg",
+        "label": "Members",
+        "backgroundColor": "0xFFDD2E37",
+        "menuPageId": "menu3",
+        "statusBarColors": "0xff212327"
+      },
+      {
+        "activeIcon": "assets/images/bottom_menu_profile_icon.svg",
+        "deActiveIcon":"assets/images/bottom_menu_profile_icon.svg",
+        "label": "Profile",
+        "backgroundColor": "0xFFDD2E37",
+        "menuPageId": "menu4",
+        "statusBarColors": "0xff212327"
+      }
+    ]
+  },
+
+  "setting": {
+    "homeBottomNavigationBarHeight": 56,
+    "statusBarColors": "0xff212327",
+    "appBackgroundColors": ["0xFFFFFFFF"],
+    "isDisplaySideDrawer": false,
+    "isDisplayHomeSearch": false
+  }
+}
