@@ -44,7 +44,7 @@ class SplashScreenState extends State<SplashScreen> {
     /// Removing stored badge count
     projectUtil.removeBadge();
 
-    projectUtil.logEventTime("SplashScreen Build Started");
+    projectUtil.logEventTime("SplashSc  reen Build Started");
 
 
     initVar = await workplaceInit(context: context);
@@ -74,7 +74,7 @@ class SplashScreenState extends State<SplashScreen> {
           return "/login/profileSetup"; // If profile is complete, go to search setup
         }
         else if (initVar!.selectedCompanyId==null || initVar!.selectedCompanyId!.isEmpty) {
-          return "/login/searchYourSocietyForm"; // If pending, go to pending screen
+          return "/login/searchYourSocietyFo  rm"; // If pending, go to pending screen
         }
         else {
           return "/login"; // Default redirect if no conditions match

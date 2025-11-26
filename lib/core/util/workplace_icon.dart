@@ -55,7 +55,7 @@ abstract class WorkplaceIcons {
 
   static const String spotlightIcon = 'assets/images/star_image.svg';
   static const String spotlightStarIcon = 'assets/images/star.svg';
-  static const String appLogoImage = 'assets/images/app_new_logo.png';
+  static const String appLogoImage = 'assets/images/app_logo.png';
   static const String appLogoOldImage = 'assets/images/app_logo_image.png';
 
   static dynamic iconImage(

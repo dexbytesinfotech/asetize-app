@@ -10,11 +10,7 @@
 		</data>
 		<key>flutter_assets/AssetManifest.bin</key>
 		<data>
-		FDK6mBsY6foHpoBbPMMnp0q6lVw=
-		</data>
-		<key>flutter_assets/AssetManifest.json</key>
-		<data>
-		urgCWA6/RSNM242CseY7lzi2nC4=
+		57OVhB68kczCcL3I6oz79QjbbkQ=
 		</data>
 		<key>flutter_assets/FontManifest.json</key>
 		<data>
@@ -22,7 +18,7 @@
 		</data>
 		<key>flutter_assets/NOTICES.Z</key>
 		<data>
-		hrJXd9dIHW0BNzINNWjNLpuY+Ic=
+		yurPwZesIjbfNOEmYsf74isZrOg=
 		</data>
 		<key>flutter_assets/NativeAssetsManifest.json</key>
 		<data>
@@ -68,13 +64,9 @@
 		<data>
 		eub6ocgy3iQ427FU9axYcFUTeX8=
 		</data>
-		<key>flutter_assets/assets/images/app_logo_image.png</key>
+		<key>flutter_assets/assets/images/app_logo.png</key>
 		<data>
-		/PTbtno8stBb7gO1YXolQzcee0o=
-		</data>
-		<key>flutter_assets/assets/images/app_new_logo.png</key>
-		<data>
-		4iIKp/qY2ICXEeFnngQf/64t8Cc=
+		61S+M9lWhllI4SQai0COJcLrwsI=
 		</data>
 		<key>flutter_assets/assets/images/asset_confirmation_pending.svg</key>
 		<data>
@@ -390,11 +382,11 @@
 		</data>
 		<key>flutter_assets/isolate_snapshot_data</key>
 		<data>
-		ncUibDF06HTLRyVPDVhkCATDD0c=
+		XaD7wmn9zaK9kChk30qE1Oc9m+8=
 		</data>
 		<key>flutter_assets/kernel_blob.bin</key>
 		<data>
-		ZtoB6fkYJabgqDflWqEIYAhV5/E=
+		YkfW9kBFMEDKkKLxIrUQ5UIBPrc=
 		</data>
 		<key>flutter_assets/packages/country_code_picker/flags/ad.png</key>
 		<data>
@@ -1900,9 +1892,13 @@
 		<data>
 		VvTF10G1gIeea4aI0DhJjCjHgXQ=
 		</data>
+		<key>flutter_assets/shaders/stretch_effect.frag</key>
+		<data>
+		kG7Fh+R6JkaM/GufJFUfEToHTEg=
+		</data>
 		<key>flutter_assets/vm_snapshot_data</key>
 		<data>
-		yyq5EcsmxYyBwFjTZrLTRBq4XWU=
+		3y4zj1lbLxr1MIJjsR7xSTsrd4k=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -1911,14 +1907,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			jNzLLbVv1vHZ7pAX5gBsnQOixeQd4isXmli7VmBQDfY=
-			</data>
-		</dict>
-		<key>flutter_assets/AssetManifest.json</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			eldYAvIeUrbCOwbs1klg7CoLqrj+49TU3chb8fjV1VQ=
+			0Jj+k4dmMaFUrfPa46d9DTF5Bg1tgD1nVkiMDo2Igc8=
 			</data>
 		</dict>
 		<key>flutter_assets/FontManifest.json</key>
@@ -1932,7 +1921,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			hjJjJyjo1mm3aafoQu3VX+RtkcGJFjwsbyqeALJseZc=
+			iQAfcSb3ORwM63RMPjrR83VHQVP/Y3uUbXR1D3iGico=
 			</data>
 		</dict>
 		<key>flutter_assets/NativeAssetsManifest.json</key>
@@ -2005,18 +1994,11 @@
 			apc25XNlMYQ5g68BqJo+iLobotynruO8q5S3OY0bYA4=
 			</data>
 		</dict>
-		<key>flutter_assets/assets/images/app_logo_image.png</key>
+		<key>flutter_assets/assets/images/app_logo.png</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			UYdFgXeQSpLDn+xmNH+8d/ycfT4XGkmRS6RNdhInQ+k=
-			</data>
-		</dict>
-		<key>flutter_assets/assets/images/app_new_logo.png</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			DZew2/P1k4ddMYmh7DPh88lRFkosMMnTe0nb4GD7LV4=
+			zejPkeEcLxYuvKxJnKPRc9IJ/nz0ELb7WLtSB+9EBEI=
 			</data>
 		</dict>
 		<key>flutter_assets/assets/images/asset_confirmation_pending.svg</key>
@@ -2569,14 +2551,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			65VA5fzHdHoTwJUVC6uaYwRMa1P+NOWiS8NEgFpxsLU=
+			5t5SunpoQBHDgApI7jaDW7Q7rylvJU3JNl9Koq4rNOI=
 			</data>
 		</dict>
 		<key>flutter_assets/kernel_blob.bin</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Y97bOA2aMQxDTrA1zcYqV7RlvfbqQYUVoDAc0m4uRTs=
+			aYIv/FA4ahU9jLabEpfPBax3P+8jZo6eRQn/OoU5X/U=
 			</data>
 		</dict>
 		<key>flutter_assets/packages/country_code_picker/flags/ad.png</key>
@@ -5211,11 +5193,18 @@
 			TGVjYgE+Oyl6guvhhPPrWfynkxkJeFjSzSLsQqn7Q3M=
 			</data>
 		</dict>
+		<key>flutter_assets/shaders/stretch_effect.frag</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			Y/95u280RMpR6e6ndBjH5Pm8ujZSD5Qf33woQ/NncNU=
+			</data>
+		</dict>
 		<key>flutter_assets/vm_snapshot_data</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			9GUhMA+MB30KbahT/4tgci98x/CLK+R2R7dFrti99M8=
+			OdF1NJaYIhUMtPHX5I2sunghfvWky6zAyizwBbVifbU=
 			</data>
 		</dict>
 	</dict>
