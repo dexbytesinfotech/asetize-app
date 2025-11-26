@@ -19,7 +19,6 @@ abstract class ConstantC {
 
 
 
-
 abstract class ApiConst {
 
   static const bool isProduction = false;
@@ -491,7 +490,6 @@ abstract class ApiConst {
 
   static const String getTaskFiltersList =
       '${baseUrlC}api/filters/tasks';
-
 
   static const String howToPayList =
       '${baseUrlC}api/company/how-to-pay';
