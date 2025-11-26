@@ -1,0 +1,2 @@
+/Users/ndbit-45/StudioProjects/asetize/asetize/android/app/.cxx/RelWithDebInfo/a4t1f1m2/x86_64/CMakeFiles/edit_cache.dir
+/Users/ndbit-45/StudioProjects/asetize/asetize/android/app/.cxx/RelWithDebInfo/a4t1f1m2/x86_64/CMakeFiles/rebuild_cache.dir

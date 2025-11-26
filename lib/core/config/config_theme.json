@@ -1,0 +1,43 @@
+{
+  "homeBottomNavigationBar": {
+    "backgroundColor": "0xFFFFFFFF",
+    "activeIconColor": "0xFF2196F3",
+    "deActiveIconColor": "0xFF607D8B",
+    "activeMenuTextStyle": {
+      "fontSize": 12,
+      "color": "0xFF2196F3"
+    },
+    "deActiveMenuTextStyle": {
+      "fontSize": 12,
+      "color": "0xFF607D8B"
+    },"elevation": 0,
+    "type": 0,
+"menu_item": [
+{
+  "icon": "0xf53a",
+  "label": "Home",
+  "backgroundColor": "0xFFFFEBEE"
+},
+  {"icon": "0xe11b",
+  "label": "Studio",
+  "backgroundColor": "0xFFFFEBEE"
+},
+  {"icon": "0xe04b",
+  "label": "add_box",
+  "backgroundColor": "0xFFFFEBEE"
+},
+  {"icon": "0xee4e",
+  "label": "Profile",
+  "backgroundColor": "0xFFFFEBEE"
+},
+  {"icon": "0xe559",
+  "label": "Explore",
+  "backgroundColor": "0xFFFFEBEE"
+}
+]
+  },
+
+  "setting": {
+    "homeBottomNavigationBarHeight": 56
+  }
+}

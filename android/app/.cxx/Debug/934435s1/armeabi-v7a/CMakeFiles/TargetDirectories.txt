@@ -1,0 +1,2 @@
+/Users/ndbit-45/StudioProjects/asetize/asetize/android/app/.cxx/Debug/934435s1/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/ndbit-45/StudioProjects/asetize/asetize/android/app/.cxx/Debug/934435s1/armeabi-v7a/CMakeFiles/rebuild_cache.dir

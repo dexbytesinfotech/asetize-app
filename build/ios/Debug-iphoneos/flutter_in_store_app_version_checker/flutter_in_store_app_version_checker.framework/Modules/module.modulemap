@@ -1,0 +1,11 @@
+framework module flutter_in_store_app_version_checker {
+  umbrella header "flutter_in_store_app_version_checker-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module flutter_in_store_app_version_checker.Swift {
+  header "flutter_in_store_app_version_checker-Swift.h"
+  requires objc
+}

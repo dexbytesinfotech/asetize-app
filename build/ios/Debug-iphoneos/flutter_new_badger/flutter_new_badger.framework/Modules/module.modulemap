@@ -1,0 +1,11 @@
+framework module flutter_new_badger {
+  umbrella header "flutter_new_badger-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module flutter_new_badger.Swift {
+  header "flutter_new_badger-Swift.h"
+  requires objc
+}
