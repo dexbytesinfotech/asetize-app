@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.dexbytes.asetize.app-mergeDebugResources-83:/values-v18/values-v18.xml",
+            "map": [
+                {
+                    "source": "/Users/ndbit-44/.gradle/caches/8.11.1/transforms/2ba2c2b2f8b4e62a37d7de574100fefc/transformed/appcompat-1.6.1/res/values-v18/values-v18.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "48",
+                        "endOffsets": "99"
+                    }
+                }
+            ]
+        }
+    ]
+}

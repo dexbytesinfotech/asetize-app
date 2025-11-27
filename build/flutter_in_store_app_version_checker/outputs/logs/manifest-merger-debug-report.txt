@@ -1,0 +1,17 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/ndbit-44/.pub-cache/hosted/pub.dev/flutter_in_store_app_version_checker-1.11.0/android/src/main/AndroidManifest.xml:1:1-4:12
+INJECTED from /Users/ndbit-44/.pub-cache/hosted/pub.dev/flutter_in_store_app_version_checker-1.11.0/android/src/main/AndroidManifest.xml:1:1-4:12
+	package
+		ADDED from /Users/ndbit-44/.pub-cache/hosted/pub.dev/flutter_in_store_app_version_checker-1.11.0/android/src/main/AndroidManifest.xml:3:3-49
+		INJECTED from /Users/ndbit-44/.pub-cache/hosted/pub.dev/flutter_in_store_app_version_checker-1.11.0/android/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/ndbit-44/.pub-cache/hosted/pub.dev/flutter_in_store_app_version_checker-1.11.0/android/src/main/AndroidManifest.xml:2:3-61
+uses-sdk
+INJECTED from /Users/ndbit-44/.pub-cache/hosted/pub.dev/flutter_in_store_app_version_checker-1.11.0/android/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/ndbit-44/.pub-cache/hosted/pub.dev/flutter_in_store_app_version_checker-1.11.0/android/src/main/AndroidManifest.xml
+INJECTED from /Users/ndbit-44/.pub-cache/hosted/pub.dev/flutter_in_store_app_version_checker-1.11.0/android/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/ndbit-44/.pub-cache/hosted/pub.dev/flutter_in_store_app_version_checker-1.11.0/android/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/ndbit-44/.pub-cache/hosted/pub.dev/flutter_in_store_app_version_checker-1.11.0/android/src/main/AndroidManifest.xml

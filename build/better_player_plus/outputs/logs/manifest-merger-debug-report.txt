@@ -1,0 +1,15 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/ndbit-44/.pub-cache/hosted/pub.dev/better_player_plus-1.1.5/android/src/main/AndroidManifest.xml:1:1-49
+INJECTED from /Users/ndbit-44/.pub-cache/hosted/pub.dev/better_player_plus-1.1.5/android/src/main/AndroidManifest.xml:1:1-49
+	package
+		ADDED from /Users/ndbit-44/.pub-cache/hosted/pub.dev/better_player_plus-1.1.5/android/src/main/AndroidManifest.xml:1:11-46
+		INJECTED from /Users/ndbit-44/.pub-cache/hosted/pub.dev/better_player_plus-1.1.5/android/src/main/AndroidManifest.xml
+uses-sdk
+INJECTED from /Users/ndbit-44/.pub-cache/hosted/pub.dev/better_player_plus-1.1.5/android/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/ndbit-44/.pub-cache/hosted/pub.dev/better_player_plus-1.1.5/android/src/main/AndroidManifest.xml
+INJECTED from /Users/ndbit-44/.pub-cache/hosted/pub.dev/better_player_plus-1.1.5/android/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/ndbit-44/.pub-cache/hosted/pub.dev/better_player_plus-1.1.5/android/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/ndbit-44/.pub-cache/hosted/pub.dev/better_player_plus-1.1.5/android/src/main/AndroidManifest.xml

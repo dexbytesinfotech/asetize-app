@@ -1,0 +1,1 @@
+ /Users/ndbit-44/GitProjects/asetize-main/asetize-main/.dart_tool/flutter_build/26267e0518707d667c02f86dc9050d84/native_assets.json: 

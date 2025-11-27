@@ -1,0 +1,42 @@
+[
+    {
+        "merged": "com.dexbytes.asetize.app-debug-85:/xml_share_targets.xml.flat",
+        "source": "com.dexbytes.asetize.app-main-79:/xml/share_targets.xml"
+    },
+    {
+        "merged": "com.dexbytes.asetize.app-debug-85:/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "com.dexbytes.asetize.app-main-79:/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.dexbytes.asetize.app-debug-85:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.dexbytes.asetize.app-main-79:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.dexbytes.asetize.app-debug-85:/drawable_ic_stat_onesignal_default.png.flat",
+        "source": "com.dexbytes.asetize.app-main-79:/drawable/ic_stat_onesignal_default.png"
+    },
+    {
+        "merged": "com.dexbytes.asetize.app-debug-85:/drawable-v21_launch_background.xml.flat",
+        "source": "com.dexbytes.asetize.app-main-79:/drawable-v21/launch_background.xml"
+    },
+    {
+        "merged": "com.dexbytes.asetize.app-debug-85:/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "com.dexbytes.asetize.app-main-79:/mipmap-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.dexbytes.asetize.app-debug-85:/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "com.dexbytes.asetize.app-main-79:/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.dexbytes.asetize.app-debug-85:/drawable_splash_screen_new.png.flat",
+        "source": "com.dexbytes.asetize.app-main-79:/drawable/splash_screen_new.png"
+    },
+    {
+        "merged": "com.dexbytes.asetize.app-debug-85:/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "com.dexbytes.asetize.app-main-79:/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.dexbytes.asetize.app-debug-85:/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "com.dexbytes.asetize.app-main-79:/mipmap-xxhdpi/ic_launcher.png"
+    }
+]

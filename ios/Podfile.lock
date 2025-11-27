@@ -1,5 +1,5 @@
 PODS:
-  - better_player_plus (1.0.0):
+  - better_player_plus (1.1.2):
     - Cache (~> 6.0.0)
     - Flutter
     - GCDWebServer
@@ -44,60 +44,55 @@ PODS:
   - file_picker (0.0.1):
     - DKImagePickerController/PhotoGallery
     - Flutter
-  - Firebase/Analytics (11.15.0):
-    - Firebase/Core
-  - Firebase/Core (11.15.0):
+  - Firebase/CoreOnly (12.4.0):
+    - FirebaseCore (~> 12.4.0)
+  - Firebase/Messaging (12.4.0):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (~> 11.15.0)
-  - Firebase/CoreOnly (11.15.0):
-    - FirebaseCore (~> 11.15.0)
-  - Firebase/Messaging (11.15.0):
-    - Firebase/CoreOnly
-    - FirebaseMessaging (~> 11.15.0)
-  - firebase_analytics (11.6.0):
-    - Firebase/Analytics (= 11.15.0)
+    - FirebaseMessaging (~> 12.4.0)
+  - firebase_analytics (12.0.4):
+    - firebase_core
+    - FirebaseAnalytics (= 12.4.0)
+    - Flutter
+  - firebase_core (4.2.1):
+    - Firebase/CoreOnly (= 12.4.0)
+    - Flutter
+  - firebase_messaging (16.0.4):
+    - Firebase/Messaging (= 12.4.0)
     - firebase_core
     - Flutter
-  - firebase_core (3.15.2):
-    - Firebase/CoreOnly (= 11.15.0)
-    - Flutter
-  - firebase_messaging (15.2.10):
-    - Firebase/Messaging (= 11.15.0)
-    - firebase_core
-    - Flutter
-  - FirebaseAnalytics (11.15.0):
-    - FirebaseAnalytics/Default (= 11.15.0)
-    - FirebaseCore (~> 11.15.0)
-    - FirebaseInstallations (~> 11.0)
+  - FirebaseAnalytics (12.4.0):
+    - FirebaseAnalytics/Default (= 12.4.0)
+    - FirebaseCore (~> 12.4.0)
+    - FirebaseInstallations (~> 12.4.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
     - GoogleUtilities/MethodSwizzler (~> 8.1)
     - GoogleUtilities/Network (~> 8.1)
     - "GoogleUtilities/NSData+zlib (~> 8.1)"
     - nanopb (~> 3.30910.0)
-  - FirebaseAnalytics/Default (11.15.0):
-    - FirebaseCore (~> 11.15.0)
-    - FirebaseInstallations (~> 11.0)
-    - GoogleAppMeasurement/Default (= 11.15.0)
+  - FirebaseAnalytics/Default (12.4.0):
+    - FirebaseCore (~> 12.4.0)
+    - FirebaseInstallations (~> 12.4.0)
+    - GoogleAppMeasurement/Default (= 12.4.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
     - GoogleUtilities/MethodSwizzler (~> 8.1)
     - GoogleUtilities/Network (~> 8.1)
     - "GoogleUtilities/NSData+zlib (~> 8.1)"
     - nanopb (~> 3.30910.0)
-  - FirebaseCore (11.15.0):
-    - FirebaseCoreInternal (~> 11.15.0)
+  - FirebaseCore (12.4.0):
+    - FirebaseCoreInternal (~> 12.4.0)
     - GoogleUtilities/Environment (~> 8.1)
     - GoogleUtilities/Logger (~> 8.1)
-  - FirebaseCoreInternal (11.15.0):
+  - FirebaseCoreInternal (12.4.0):
     - "GoogleUtilities/NSData+zlib (~> 8.1)"
-  - FirebaseInstallations (11.15.0):
-    - FirebaseCore (~> 11.15.0)
+  - FirebaseInstallations (12.4.0):
+    - FirebaseCore (~> 12.4.0)
     - GoogleUtilities/Environment (~> 8.1)
     - GoogleUtilities/UserDefaults (~> 8.1)
     - PromisesObjC (~> 2.4)
-  - FirebaseMessaging (11.15.0):
-    - FirebaseCore (~> 11.15.0)
-    - FirebaseInstallations (~> 11.0)
-    - GoogleDataTransport (~> 10.0)
+  - FirebaseMessaging (12.4.0):
+    - FirebaseCore (~> 12.4.0)
+    - FirebaseInstallations (~> 12.4.0)
+    - GoogleDataTransport (~> 10.1)
     - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
     - GoogleUtilities/Environment (~> 8.1)
     - GoogleUtilities/Reachability (~> 8.1)
@@ -124,27 +119,28 @@ PODS:
     - Flutter
     - google_mlkit_commons
     - GoogleMLKit/TextRecognition (~> 7.0.0)
-  - GoogleAdsOnDeviceConversion (2.1.0):
+  - GoogleAdsOnDeviceConversion (3.1.0):
+    - GoogleUtilities/Environment (~> 8.1)
     - GoogleUtilities/Logger (~> 8.1)
     - GoogleUtilities/Network (~> 8.1)
     - nanopb (~> 3.30910.0)
-  - GoogleAppMeasurement/Core (11.15.0):
+  - GoogleAppMeasurement/Core (12.4.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
     - GoogleUtilities/MethodSwizzler (~> 8.1)
     - GoogleUtilities/Network (~> 8.1)
     - "GoogleUtilities/NSData+zlib (~> 8.1)"
     - nanopb (~> 3.30910.0)
-  - GoogleAppMeasurement/Default (11.15.0):
-    - GoogleAdsOnDeviceConversion (= 2.1.0)
-    - GoogleAppMeasurement/Core (= 11.15.0)
-    - GoogleAppMeasurement/IdentitySupport (= 11.15.0)
+  - GoogleAppMeasurement/Default (12.4.0):
+    - GoogleAdsOnDeviceConversion (~> 3.1.0)
+    - GoogleAppMeasurement/Core (= 12.4.0)
+    - GoogleAppMeasurement/IdentitySupport (= 12.4.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
     - GoogleUtilities/MethodSwizzler (~> 8.1)
     - GoogleUtilities/Network (~> 8.1)
     - "GoogleUtilities/NSData+zlib (~> 8.1)"
     - nanopb (~> 3.30910.0)
-  - GoogleAppMeasurement/IdentitySupport (11.15.0):
-    - GoogleAppMeasurement/Core (= 11.15.0)
+  - GoogleAppMeasurement/IdentitySupport (12.4.0):
+    - GoogleAppMeasurement/Core (= 12.4.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
     - GoogleUtilities/MethodSwizzler (~> 8.1)
     - GoogleUtilities/Network (~> 8.1)
@@ -208,7 +204,7 @@ PODS:
     - PINCache (>= 3.0.1-beta.3)
   - image_cropper (0.0.4):
     - Flutter
-    - TOCropViewController (~> 2.7.4)
+    - TOCropViewController (~> 2.8.0)
   - image_picker_ios (0.0.1):
     - Flutter
   - local_auth_darwin (0.0.1):
@@ -321,13 +317,15 @@ PODS:
     - PINOperation (~> 1.2.3)
   - PINOperation (1.2.3)
   - PromisesObjC (2.4.0)
-  - razorpay-pod (1.4.3)
+  - razorpay-core-pod (1.0.3)
+  - razorpay-pod (1.5.0):
+    - razorpay-core-pod
   - razorpay_flutter (1.1.10):
     - Flutter
     - razorpay-pod
-  - SDWebImage (5.21.1):
-    - SDWebImage/Core (= 5.21.1)
-  - SDWebImage/Core (5.21.1)
+  - SDWebImage (5.21.3):
+    - SDWebImage/Core (= 5.21.3)
+  - SDWebImage/Core (5.21.3)
   - share_handler_ios (0.0.14):
     - Flutter
     - share_handler_ios/share_handler_ios_models (= 0.0.14)
@@ -351,7 +349,7 @@ PODS:
   - SwiftyGif (5.4.5)
   - syncfusion_flutter_pdfviewer (0.0.1):
     - Flutter
-  - TOCropViewController (2.7.4)
+  - TOCropViewController (2.8.0)
   - url_launcher_ios (0.0.1):
     - Flutter
   - vibration (3.0.0):
@@ -433,6 +431,7 @@ SPEC REPOS:
     - PINCache
     - PINOperation
     - PromisesObjC
+    - razorpay-core-pod
     - razorpay-pod
     - SDWebImage
     - SwiftyGif
@@ -509,22 +508,22 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/wakelock_plus/ios"
 
 SPEC CHECKSUMS:
-  better_player_plus: 10794c0ed1b3b4ae058939e22a6172f850a2039b
+  better_player_plus: 3d40145c650bb83dde08f0d593b21a144196769f
   Cache: 4ca7e00363fca5455f26534e5607634c820ffc2d
   connectivity_plus: cb623214f4e1f6ef8fe7403d580fdad517d2f7dd
   device_info_plus: 21fcca2080fbcd348be798aa36c3e5ed849eefbe
   DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
   DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
   file_picker: a0560bc09d61de87f12d246fc47d2119e6ef37be
-  Firebase: d99ac19b909cd2c548339c2241ecd0d1599ab02e
-  firebase_analytics: 0e25ca1d4001ccedd40b4e5b74c0ec34e18f6425
-  firebase_core: 995454a784ff288be5689b796deb9e9fa3601818
-  firebase_messaging: f4a41dd102ac18b840eba3f39d67e77922d3f707
-  FirebaseAnalytics: 6433dfd311ba78084fc93bdfc145e8cb75740eae
-  FirebaseCore: efb3893e5b94f32b86e331e3bd6dadf18b66568e
-  FirebaseCoreInternal: 9afa45b1159304c963da48addb78275ef701c6b4
-  FirebaseInstallations: 317270fec08a5d418fdbc8429282238cab3ac843
-  FirebaseMessaging: 3b26e2cee503815e01c3701236b020aa9b576f09
+  Firebase: f07b15ae5a6ec0f93713e30b923d9970d144af3e
+  firebase_analytics: 67fbdd9f3c04e55048024f3da21cfc36f05e56cf
+  firebase_core: f1aafb21c14f497e5498f7ffc4dc63cbb52b2594
+  firebase_messaging: c17a29984eafce4b2997fe078bb0a9e0b06f5dde
+  FirebaseAnalytics: 0fc2b20091f0ddd21bf73397cf8f0eb5346dc24f
+  FirebaseCore: bb595f3114953664e3c1dc032f008a244147cfd3
+  FirebaseCoreInternal: d7f5a043c2cd01a08103ab586587c1468047bca6
+  FirebaseInstallations: ae9f4902cb5bf1d0c5eaa31ec1f4e5495a0714e2
+  FirebaseMessaging: d33971b7bb252745ea6cd31ab190d1a1df4b8ed5
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
   flutter_contacts_service: 902ab491c5f7cd3a8fc184b3be747741444cbae3
   flutter_in_store_app_version_checker: bd02c79ed3d56971d4b1ce28b03dd58aaeda06c8
@@ -534,17 +533,17 @@ SPEC CHECKSUMS:
   GCDWebServer: 2c156a56c8226e2d5c0c3f208a3621ccffbe3ce4
   google_mlkit_commons: 2abe6a70e1824e431d16a51085cb475b672c8aab
   google_mlkit_text_recognition: ec2122ec89bfe0d7200763336a6e4ef44810674c
-  GoogleAdsOnDeviceConversion: 2be6297a4f048459e0ae17fad9bfd2844e10cf64
-  GoogleAppMeasurement: 700dce7541804bec33db590a5c496b663fbe2539
+  GoogleAdsOnDeviceConversion: e03a386840803ea7eef3fd22a061930142c039c1
+  GoogleAppMeasurement: 1e718274b7e015cefd846ac1fcf7820c70dc017d
   GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7
   GoogleMLKit: eff9e23ec1d90ea4157a1ee2e32a4f610c5b3318
   GoogleToolboxForMac: d1a2cbf009c453f4d6ded37c105e2f67a32206d8
   GoogleUtilities: 00c88b9a86066ef77f0da2fab05f65d7768ed8e1
   GTMSessionFetcher: 5aea5ba6bd522a239e236100971f10cb71b96ab6
   HLSCachingReverseProxyServer: 59935e1e0244ad7f3375d75b5ef46e8eb26ab181
-  image_cropper: c4326ea50132b1e1564499e5d32a84f01fb03537
-  image_picker_ios: 7fe1ff8e34c1790d6fff70a32484959f563a928a
-  local_auth_darwin: d2e8c53ef0c4f43c646462e3415432c4dab3ae19
+  image_cropper: 64567491beea6cd1bc4b11948e2babb590de5826
+  image_picker_ios: e0ece4aa2a75771a7de3fa735d26d90817041326
+  local_auth_darwin: c3ee6cce0a8d56be34c8ccb66ba31f7f180aaebb
   MLImage: 0ad1c5f50edd027672d8b26b0fee78a8b4a0fc56
   MLKitCommon: 07c2c33ae5640e5380beaaa6e4b9c249a205542d
   MLKitTextRecognition: 3b41f3ff084a79afb214408d25d2068d77ab322c
@@ -558,25 +557,26 @@ SPEC CHECKSUMS:
   onesignal_flutter: 3a2b51f9262c851166a882a553d71a8ccec4e29c
   OneSignalXCFramework: 7112f3e89563e41ebc23fe807788f11985ac541c
   package_info_plus: 566e1b7a2f3900e4b0020914ad3fc051dcc95596
-  path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
+  path_provider_foundation: bb55f6dbba17d0dccd6737fe6f7f34fbd0376880
   permission_handler_apple: 4ed2196e43d0651e8ff7ca3483a069d469701f2d
   PINCache: d9a87a0ff397acffe9e2f0db972ac14680441158
   PINOperation: fb563bcc9c32c26d6c78aaff967d405aa2ee74a7
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
-  razorpay-pod: af9d52abe715ed5cc3eed9fdf6fd74340443d0b9
+  razorpay-core-pod: ef0309dbf8e3e5a1330f6cad89dcf9226d8ef758
+  razorpay-pod: f634f1b8397eb54d547f25d35291f679545ddf17
   razorpay_flutter: 0e98e4fcaae27ad50e011d85f66d85e0a008754a
-  SDWebImage: f29024626962457f3470184232766516dee8dfea
+  SDWebImage: 16309af6d214ba3f77a7c6f6fdda888cb313a50a
   share_handler_ios: e2244e990f826b2c8eaa291ac3831569438ba0fb
   share_handler_ios_models: fc638c9b4330dc7f082586c92aee9dfa0b87b871
   share_plus: 50da8cb520a8f0f65671c6c6a99b3617ed10a58a
-  shared_preferences_foundation: 9e1978ff2562383bd5676f64ec4e9aa8fa06a6f7
+  shared_preferences_foundation: 7036424c3d8ec98dfe75ff1667cb0cd531ec82bb
   simple_barcode_scanner: f1217b91fbad5848d37fa6d794f443416fd3e44d
   sms_autofill: b36b2147535657fea83d7f3898d7831de70bd8e4
   sqflite_darwin: 20b2a3a3b70e43edae938624ce550a3cbf66a3d0
   SwiftyGif: 706c60cf65fa2bc5ee0313beece843c8eb8194d4
   syncfusion_flutter_pdfviewer: 90dc48305d2e33d4aa20681d1e98ddeda891bc14
-  TOCropViewController: 80b8985ad794298fb69d3341de183f33d1853654
-  url_launcher_ios: 694010445543906933d732453a59da0a173ae33d
+  TOCropViewController: 797deaf39c90e6e9ddd848d88817f6b9a8a09888
+  url_launcher_ios: 7a95fa5b60cc718a708b8f2966718e93db0cef1b
   vibration: 69774ad57825b11c951ee4c46155f455d7a592ce
   wakelock_plus: e29112ab3ef0b318e58cfa5c32326458be66b556
 
