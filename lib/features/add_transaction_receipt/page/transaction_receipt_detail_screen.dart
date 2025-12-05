@@ -414,7 +414,7 @@ class _TransactionReceiptDetailScreen
                                             style: TextStyle(
                                               color: Colors.red,
                                               fontSize: 16,
-                                              fontWeight: FontWeight.normal,
+                                                fontWeight: FontWeight.normal,
                                             ),
                                           ),
                                         ],

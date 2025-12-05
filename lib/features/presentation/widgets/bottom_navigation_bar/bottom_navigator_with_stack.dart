@@ -200,26 +200,25 @@ class _BottomNavigatorWithStackState extends State<BottomNavigatorWithStack> {
     return tapedItem!;
   }
 
-  bool hideBottomMenuTab(String tabName,BuildContext context) {
-
-    //return true;
-    /// Please don't remove this because at list 2 menu is need
-    if(tabName == "Home" || tabName == 'Profile'){
+  bool hideBottomMenuTab(String tabName, BuildContext context) {
+    /// Keep Home & Profile always visible
+    if (tabName == "Home" || tabName == 'Profile') {
       return true;
     }
-     else {
-      /// Please another option menu here by using elseif statement
-      if(tabName == "Post")
-      {
-        return AppPermission.instance.canPermission(AppString.postList,context: context);
-      } else if(tabName == "Members")
-      {
-        return AppPermission.instance.canPermission(AppString.memberList,context: context);
-      }
-      return false;
+
+    /// Remove the Post tab completely
+    if (tabName == "Post") {
+      return false; // <- This hides the Post tab
     }
 
+    /// Other menu based on permission
+    if (tabName == "Members") {
+      return AppPermission.instance.canPermission(AppString.memberList, context: context);
+    }
+
+    return false;
   }
+
 
   void updateMenuItem(BuildContext context) {
     if (homeBottomNavigationBar.containsKey("menu_item")) {

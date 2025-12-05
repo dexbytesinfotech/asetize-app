@@ -21,6 +21,7 @@ import '../../presentation/widgets/workplace_widgets.dart';
 import '../bloc/follow_up_bloc.dart';
 import '../bloc/follow_up_event.dart';
 import '../bloc/follow_up_state.dart';
+import '../widgets/task_shimmer.dart';
 import 'add_follow_up_screen.dart';
 import 'add_new_task.dart';
 import 'new_add_follow_up_screen.dart';
@@ -42,7 +43,7 @@ class _FollowUpTasksScreenState extends State<FollowUpTasksScreen>
   ScrollController scrollController = ScrollController();
   ScrollController completeScrollController = ScrollController();
 
-
+  bool isFirstLoad = true;
   final RefreshController _refreshControllerForActiveTask =
       RefreshController(initialRefresh: false);
   final RefreshController _refreshControllerForCompletedTask =
@@ -355,6 +356,7 @@ class _FollowUpTasksScreenState extends State<FollowUpTasksScreen>
   @override
   void initState() {
     super.initState();
+    isFirstLoad = true;
     followUpBloc = BlocProvider.of<FollowUpBloc>(context);
     followUpBloc.taskListData.clear();
     controllers['amenityType']?.text = 'All Statuses';
@@ -452,7 +454,7 @@ if(followUpBloc.datePresets.isEmpty){
     final canManageTaskAdd =
     AppPermission.instance.canPermission(AppString.manageTaskAdd, context: context);
     final canTaskAdd =
-    AppPermission.instance.canPermission(AppString.taskAdd, context: context);
+    AppPermission.instance.canPermission(AppString.taskAdd, context: context)  ;
 
     final canShowAdd =widget.isComingFromMyTask?canTaskAdd : canManageTaskAdd;
 
@@ -887,6 +889,9 @@ if(followUpBloc.datePresets.isEmpty){
             );
     }
 
+    return BlocBuilder<FollowUpBloc, FollowUpState>(
+      bloc: followUpBloc,
+  builder: (context, state) {
     return ContainerFirst(
       contextCurrentView: context,
       isSingleChildScrollViewNeed: false,
@@ -937,6 +942,14 @@ if(followUpBloc.datePresets.isEmpty){
                 durationInSeconds: 1);
 
           }
+          // BlocBuilder ke andar
+          if (state is GetTaskListDoneState || state is GetCompleteTaskListDoneState) {
+            if (isFirstLoad) {
+              setState(() {
+                isFirstLoad = false; // Sirf ek baar
+              });
+            }
+          }
           if (state is MarkTaskAsCompleteErrorState) {
             WorkplaceWidgets.errorSnackBar(context, state.errorMessage);
           }
@@ -957,6 +970,9 @@ if(followUpBloc.datePresets.isEmpty){
         child: BlocBuilder<FollowUpBloc, FollowUpState>(
           bloc: followUpBloc,
           builder: (context, state) {
+
+
+
             if (state is MarkTaskAsCompleteDoneState) {
               isLoader = false;
 
@@ -1271,47 +1287,29 @@ if(followUpBloc.datePresets.isEmpty){
                     ),
                   ],
                 ),
-                if ((state is GetTaskListLoadingState ||
-                        state is GetCompleteTaskListLoadingState || state is AssignTaskLoadingState|| state is MarkTaskAsCompleteLoadingState) &&
-                    isLoader)
-                  WorkplaceWidgets.progressLoader(context),
+                // Full page shimmer only on first load
+                if (isFirstLoad && (state is GetTaskListLoadingState || state is GetCompleteTaskListLoadingState))
+                  TaskFullPageShimmer()
+                else if (!isFirstLoad &&
+                    (state is GetTaskListLoadingState ||
+                        state is GetCompleteTaskListLoadingState ||
+                        state is MarkTaskAsCompleteLoadingState ||
+                        state is AssignTaskLoadingState))
+                  WorkplaceWidgets.progressLoader(context)
               ],
             );
           },
         ),
       ),
       bottomMenuView:
-      canShowAdd?
+      canShowAdd && followUpBloc.taskListData.isNotEmpty?
     CommonFloatingAddButton(
         onPressed: () {
-
           addNewItemBottomSheet();
-
-
-
-
-   //        Navigator.push(
-   //          context,
-   //          SlideLeftRoute(
-   //            widget: AddTaskScreen(isComingFrom: true, moduleName: "", isShowTaskType: true,),
-   //          ),
-   //        ).then((value) {
-   //          if (value == true) {
-   //            setState(() {
-   //              isLoader = false;
-   //            });
-   // /*           followUpBloc.add(OnGetTaskListEvent(
-   //                mContext: context, today: showTodayOnly, status: 'open'));*/
-   //
-   //            if (tabInitialIndex == 0) {
-   //              _applyFiltersForActiveTasks();
-   //            } else {
-   //              _applyFiltersForCompletedTasks();
-   //            }
-   //          }
-   //        });
         },
       ): SizedBox()
     );
+  },
+);
   }
 }

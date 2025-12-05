@@ -3,10 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:asetize/features/account_books/pages/payment_history_detail_screen.dart';
 import 'package:asetize/features/my_unit/pages/my_unit_new_screen.dart';
 import 'package:asetize/features/presentation/presentation.dart';
-
 import 'package:asetize/features/my_visitor/models/visitor_model.dart' as VisitorModel;
-
-import '../../../features/account_books/pages/pending_confirmation.dart';
 import '../../../features/add_transaction_receipt/page/transaction_receipt_detail_screen.dart';
 import '../../../features/assets_management/pages/assets_detail_screen.dart';
 import '../../../features/complaints/pages/complaint_detail_screen.dart';
@@ -369,14 +366,7 @@ class AppNavigator {
             );
             break;
 
-            case "payment_confirmation":
-            Navigator.push(
-              mContext,
-              SlideLeftRoute(
-                  widget:
-                  const PendingConfirmation(isHomePendingConfirmation: false)),
-            );
-            break;
+
 
             case "payment_acknowledge":
             Navigator.push(

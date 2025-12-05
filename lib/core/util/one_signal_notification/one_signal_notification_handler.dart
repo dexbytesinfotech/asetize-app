@@ -89,7 +89,7 @@ class OneSignalNotificationsHandler {
     return token;
   }
 
-  Future<String?> refreshToken() async {
+  Future<String?> refreshToken()  async {
     try {
       await OneSignal.User.pushSubscription.optOut();
       await Future.delayed(const Duration(seconds: 2));

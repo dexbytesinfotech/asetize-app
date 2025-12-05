@@ -6,6 +6,7 @@ import '../bloc/noc_request_bloc.dart';
 import '../bloc/noc_request_event.dart';
 import '../bloc/noc_request_state.dart';
 import '../widgets/noc_request_card.dart';
+import '../widgets/noc_request_shimmer.dart';
 import 'noc_request_detail_screen.dart';
 
 class NocRequestScreen extends StatefulWidget {
@@ -57,7 +58,7 @@ class _NocRequestScreenState extends State<NocRequestScreen> {
         itemCount:  nocRequestBloc.nocRequestData.length,
         itemBuilder: (context, index) {
           return Padding(
-            padding: const EdgeInsets.all(8.0).copyWith(left: 0,right: 0,top: 0,bottom: 0),
+            padding: const EdgeInsets.all(8.0).copyWith(top: 0,bottom: 0),
             child: SocietyNocCard(
               name: nocRequestBloc.nocRequestData[index].requester ?? '',
               title:nocRequestBloc.nocRequestData[index].title ?? '',
@@ -152,9 +153,7 @@ class _NocRequestScreenState extends State<NocRequestScreen> {
                     ),
                   ),
                   if (state is NocRequestLoadingState && isLoader)
-                    Center(
-                      child: WorkplaceWidgets.progressLoader(context),
-                    ),
+                    NocRequestShimmer()
                 ],
               ),
             ),

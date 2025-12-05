@@ -1,7 +1,5 @@
 import 'package:asetize/features/booking/pages/new_booking_request.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
-import '../../../app_global_components/common_floating_add_button.dart';
 import '../../../core/util/app_theme/text_style.dart';
 import '../../../imports.dart';
 import '../../../widgets/common_search_bar.dart';
@@ -11,57 +9,42 @@ import '../bloc/assets_management_bloc.dart';
 import '../bloc/assets_management_event.dart';
 import '../bloc/assets_management_state.dart';
 import '../widgets/assets_card_view.dart';
-import 'assets_detail_screen.dart';
-import 'assets_form_screen.dart';
 
 class SelectAssetToAssignBarcodeScreen extends StatefulWidget {
- final String? barcode;
+  final String? barcode;
   const SelectAssetToAssignBarcodeScreen({super.key, this.barcode});
 
   @override
-  State<SelectAssetToAssignBarcodeScreen> createState() => _SelectAssetToAssignBarcodeScreenState();
+  State<SelectAssetToAssignBarcodeScreen> createState() =>
+      _SelectAssetToAssignBarcodeScreenState();
 }
 
-class _SelectAssetToAssignBarcodeScreenState extends State<SelectAssetToAssignBarcodeScreen> {
+class _SelectAssetToAssignBarcodeScreenState
+    extends State<SelectAssetToAssignBarcodeScreen> {
   TextEditingController controller = TextEditingController();
   bool isShowLoader = true;
   String selectedCategoryName = "All Categories";
   int? selectedCategoryId;
-
   final ScrollController scrollController = ScrollController();
-
-  final RefreshController _refreshControllerForActiveTask =
-  RefreshController(initialRefresh: false);
-
-
+  final RefreshController _refreshControllerForActiveTask = RefreshController(initialRefresh: false);
   String selectedVendorName = "All Vendors";
   int? selectedVendorId;
-
   String selectedStatus = "All Statuses";
   String selectedDate = "All Dates";
   late AssetsManagementBloc assetsManagementBloc;
+
   final Set<int> selectedAssetIds = {};
+
   String _toApiFormat(String? value) {
     if (value == null || value.isEmpty) return "";
-    if (value.toLowerCase().startsWith("all")) return ""; // Handle "All Status" etc.
-
-    // Special case for "Work order"
+    if (value.toLowerCase().startsWith("all")) return "";
     if (value.toLowerCase().replaceAll(" ", "_") == "work_order") {
       return "work_order";
     }
-
-    // Default: convert snake_case
     return value.toLowerCase().replaceAll(" ", "_");
   }
-  void applyAssetFilters([bool isClearAssetsList = false,  int pageKey = 1]) {
 
-    print("🔹 Applying Filters:");
-    print("Category ID: $selectedCategoryId");
-    print("Vendor ID: $selectedVendorId");
-    print("Status: $selectedStatus");
-    print("Date: $selectedDate");
-
-
+  void applyAssetFilters([bool isClearAssetsList = false, int pageKey = 1]) {
     assetsManagementBloc.add(
       OnGetUnassignedBarcodesAssetsList(
           assetCategoryId: selectedCategoryId,
@@ -69,8 +52,7 @@ class _SelectAssetToAssignBarcodeScreenState extends State<SelectAssetToAssignBa
           status: _toApiFormat(selectedStatus),
           search: controller.text.toLowerCase(),
           isClearAssetList: isClearAssetsList,
-        nextPageKeyForAssignBarcode: pageKey
-      ),
+          nextPageKeyForAssignBarcode: pageKey),
     );
   }
 
@@ -80,7 +62,6 @@ class _SelectAssetToAssignBarcodeScreenState extends State<SelectAssetToAssignBa
     await Future.delayed(const Duration(milliseconds: 100));
     _refreshControllerForActiveTask.refreshCompleted();
   }
-
 
   void _scrollListener() {
     if (scrollController.hasClients) {
@@ -93,25 +74,18 @@ class _SelectAssetToAssignBarcodeScreenState extends State<SelectAssetToAssignBa
     }
   }
 
-
-
   void _onLoading() async {
     if (assetsManagementBloc.nextPageUrlForAssignBarcodeScreen.isNotEmpty) {
-      // Next page call
       isShowLoader = false;
       assetsManagementBloc.isPaginateLoadingForAssignBarcodeScreen = true;
-
-      // 👇 Pass the next page number
-      applyAssetFilters(false, assetsManagementBloc.currentPageForAssignBarcodeScreen + 1);
-
+      applyAssetFilters(
+          false, assetsManagementBloc.currentPageForAssignBarcodeScreen + 1);
       await Future.delayed(const Duration(milliseconds: 100));
       _refreshControllerForActiveTask.loadComplete();
     } else {
       _refreshControllerForActiveTask.loadNoData();
     }
   }
-
-
 
   @override
   void initState() {
@@ -122,80 +96,51 @@ class _SelectAssetToAssignBarcodeScreenState extends State<SelectAssetToAssignBa
     scrollController.addListener(_scrollListener);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-
     Widget searchBar() {
       return CommonSearchBar(
         controller: controller,
         onChangeTextCallBack: (searchText) {
           applyAssetFilters();
-          // Add filtering logic if needed
         },
-
         onClickCrossCallBack: () {
           controller.clear();
           FocusScope.of(context).unfocus();
-
           if (controller.text.isEmpty) {
             applyAssetFilters();
-
           }
         },
-        // onClickScannerCallBack: () async {
-        //   var res = await Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (context) => const SimpleBarcodeScannerPage(),
-        //     ),
-        //   );
-        //
-        //   if (res is String && res.isNotEmpty) {
-        //
-        //     assetsManagementBloc.add(
-        //         OnCheckBarcodeEvent(
-        //             mContext: context,
-        //             barcode: res
-        //         )
-        //     );
-        //
-        //
-        //     // controller.text = res;
-        //     // applyAssetFilters();
-        //   }
-        // },
-
         hintText: AppString.searchAssets,
         isShowScannerIcon: false,
       );
     }
 
-    Widget filters() {
+    Widget filtersRow() {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 22),
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              /// CATEGORY FILTER
               FilterChipWidget(
                 label: selectedCategoryName,
                 icon: Icons.category,
                 onTap: () {
                   final categoryList = assetsManagementBloc.categories ?? [];
-
                   showModalBottomSheet(
                     context: context,
                     backgroundColor: Colors.transparent,
                     isScrollControlled: true,
                     shape: const RoundedRectangleBorder(
                       borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(15)),
+                          BorderRadius.vertical(top: Radius.circular(15)),
                     ),
                     builder: (ctx) => SizedBox(
                       height: MediaQuery.of(ctx).size.height * 0.6,
                       child: CommonFilterBottomSheet(
-                        title: "Select Category",
+                        title: AppString.selectCategoryTitle,
                         options: [
                           "All Categories",
                           ...categoryList.map((e) => e.title ?? '').toList(),
@@ -210,7 +155,7 @@ class _SelectAssetToAssignBarcodeScreenState extends State<SelectAssetToAssignBa
                               selectedCategoryId = null;
                             } else {
                               final selected = categoryList.firstWhere(
-                                    (e) => e.title == val,
+                                (e) => e.title == val,
                                 orElse: () => categoryList.first,
                               );
                               selectedCategoryId = selected.id;
@@ -223,10 +168,7 @@ class _SelectAssetToAssignBarcodeScreenState extends State<SelectAssetToAssignBa
                   );
                 },
               ),
-
               const SizedBox(width: 5),
-
-              /// VENDOR FILTER
               FilterChipWidget(
                 label: selectedVendorName,
                 icon: Icons.person_2_outlined,
@@ -239,12 +181,12 @@ class _SelectAssetToAssignBarcodeScreenState extends State<SelectAssetToAssignBa
                     isScrollControlled: true,
                     shape: const RoundedRectangleBorder(
                       borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(15)),
+                          BorderRadius.vertical(top: Radius.circular(15)),
                     ),
                     builder: (ctx) => SizedBox(
                       height: MediaQuery.of(ctx).size.height * 0.6,
                       child: CommonFilterBottomSheet(
-                        title: "Select Vendor",
+                        title: AppString.selectVendorTitle,
                         options: [
                           "All Vendors",
                           ...vendorList.map((e) => e.name ?? '').toList(),
@@ -259,7 +201,7 @@ class _SelectAssetToAssignBarcodeScreenState extends State<SelectAssetToAssignBa
                               selectedVendorId = null;
                             } else {
                               final selected = vendorList.firstWhere(
-                                    (e) => e.name == val,
+                                (e) => e.name == val,
                                 orElse: () => vendorList.first,
                               );
                               selectedVendorId = selected.id;
@@ -272,10 +214,7 @@ class _SelectAssetToAssignBarcodeScreenState extends State<SelectAssetToAssignBa
                   );
                 },
               ),
-
               const SizedBox(width: 5),
-
-              // / STATUS FILTER
               FilterChipWidget(
                 label: selectedStatus,
                 icon: Icons.info_outline,
@@ -284,7 +223,8 @@ class _SelectAssetToAssignBarcodeScreenState extends State<SelectAssetToAssignBa
 
                   // 🔹 Convert Map values to a list dynamically
                   final statusList = [
-                    if (statuses != null) ...statuses.values.map((e) => e.toString())
+                    if (statuses != null)
+                      ...statuses.values.map((e) => e.toString())
                   ];
 
                   showModalBottomSheet(
@@ -292,12 +232,13 @@ class _SelectAssetToAssignBarcodeScreenState extends State<SelectAssetToAssignBa
                     backgroundColor: Colors.transparent,
                     isScrollControlled: true,
                     shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(15)),
                     ),
                     builder: (ctx) => SizedBox(
                       height: MediaQuery.of(ctx).size.height * 0.6,
                       child: CommonFilterBottomSheet(
-                        title: "Select Status",
+                        title: AppString.selectStatusTitle,
                         options: [
                           "All Statuses",
                           ...statusList,
@@ -315,315 +256,204 @@ class _SelectAssetToAssignBarcodeScreenState extends State<SelectAssetToAssignBa
                   );
                 },
               ),
-
-              // const SizedBox(width: 5),
-              //
-              // /// DATE FILTER
-              // FilterChipWidget(
-              //   label: selectedDate,
-              //   icon: Icons.calendar_month,
-              //   onTap: () {
-              //     showModalBottomSheet(
-              //       context: context,
-              //       backgroundColor: Colors.transparent,
-              //       isScrollControlled: true,
-              //       shape: const RoundedRectangleBorder(
-              //         borderRadius:
-              //         BorderRadius.vertical(top: Radius.circular(15)),
-              //       ),
-              //       builder: (ctx) => SizedBox(
-              //         height: MediaQuery.of(ctx).size.height * 0.6,
-              //         child: CommonFilterBottomSheet(
-              //           title: "Select Date",
-              //           options: dates,
-              //           selectedOption: selectedDate,
-              //           icon: Icons.calendar_today,
-              //           onApply: (val) {
-              //             setState(() {
-              //               selectedDate = val;
-              //             });
-              //             applyAssetFilters(true);
-              //           },
-              //         ),
-              //       ),
-              //     );
-              //   },
-              // ),
             ],
           ),
         ),
       );
     }
 
-
     Widget assetsCardView(state) {
       final assetList = assetsManagementBloc.unassignedBarcodesAssetsList ?? [];
-
-      return
-
-        assetList.isEmpty  && state is! GetUnassignedBarcodesAssetsLoadingState
-            ? SizedBox(
-          height: MediaQuery.of(context).size.height / 2.3,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  (state is GetUnassignedBarcodesAssetsLoadingState)
-                      ? ''
-                      : AppString.noAssetFound,
-                  style: appStyles.noDataTextStyle(),
+      return assetList.isEmpty &&
+              state is! GetUnassignedBarcodesAssetsLoadingState
+          ? SizedBox(
+              height: MediaQuery.of(context).size.height / 2.3,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      (state is GetUnassignedBarcodesAssetsLoadingState)
+                          ? ''
+                          : AppString.noAssetFound,
+                      style: appStyles.noDataTextStyle(),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-        ):
-
-
-
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.7, // 70% of screen height
-
-          child: SmartRefresher(
-            controller: _refreshControllerForActiveTask,
-            enablePullDown: true,
-            enablePullUp: assetsManagementBloc.nextPageUrlForAssignBarcodeScreen.isNotEmpty == true,
-            onRefresh: _onRefreshForActiveTask,
-            onLoading: _onLoading,
-            // enablePullUp: followUpBloc.nextPageUrl.isNotEmpty == true,
-            footer: const ClassicFooter(
-              loadStyle: LoadStyle.ShowWhenLoading,
-            ),
-            child: ListView.builder(
-              shrinkWrap: true,
-              padding: EdgeInsets.zero,
-              itemCount: assetList.length,
-              itemBuilder: (context, index) {
-                final asset = assetList[index];
-                final isSelected = selectedAssetIds.contains(asset.id);
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 0),
-                  child: AssetCardView(
-                    side: isSelected
-                        ? BorderSide(color: AppColors.textDarkGreenColor, width: 2)
-                        : BorderSide(color: Colors.transparent, width: 2),
-                    assetName: asset.title ?? '',
-                    category: asset.status.toString().capitalize() ?? '',
-                    vendor: asset.vendor?.name.toString() ?? '',
-                    purchaseDate: asset.registrationDateDisplay ?? '',
-                    warrantyDate: asset.warrantyDateDisplay ?? '',
-                    assignedTo: asset.assign?.name,
-                    onViewDetail: () {
-                      setState(() {
-                        selectedAssetIds.clear(); // Deselect any previously selected item
-                        if (!isSelected) {
-                          selectedAssetIds.add(asset.id ?? 0); // Select the new one
-                        }
-                      });
-
-                      // setState(() {
-                      //   if (isSelected) {
-                      //     selectedAssetIds.remove(asset.id);
-                      //   } else {
-                      //     selectedAssetIds.add(asset.id ?? 0);
-                      //   }
-                      // });
-                      // Navigator.push(
-                      //   context,
-                      //   SlideLeftRoute(
-                      //     widget:  AssetsListDetailScreen(assetId: asset.id ?? 0),
-                      //   ),
-                      // ).then((value) {
-                      //   if (value == true) {
-                      //
-                      //     setState(() {
-                      //       isShowLoader= false;
-                      //     });
-                      //     // Re-fetch list if asset added
-                      //     // applyAssetFilters();
-                      //   }
-                      // });;
-                    },
-                    onTab: () {},
-                    isAssigned: true,
-                  ),
-                );
-              },
-            ),
-          ),
-        );
+              ),
+            )
+          : SizedBox(
+              height: MediaQuery.of(context).size.height * 0.7,
+              child: SmartRefresher(
+                controller: _refreshControllerForActiveTask,
+                enablePullDown: true,
+                enablePullUp: assetsManagementBloc
+                        .nextPageUrlForAssignBarcodeScreen.isNotEmpty ==
+                    true,
+                onRefresh: _onRefreshForActiveTask,
+                onLoading: _onLoading,
+                footer: const ClassicFooter(
+                  loadStyle: LoadStyle.ShowWhenLoading,
+                ),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  itemCount: assetList.length,
+                  itemBuilder: (context, index) {
+                    final asset = assetList[index];
+                    final isSelected = selectedAssetIds.contains(asset.id);
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 18, vertical: 0),
+                      child: AssetCardView(
+                        side: isSelected
+                            ? BorderSide(
+                                color: AppColors.textDarkGreenColor, width: 2)
+                            : BorderSide(color: Colors.transparent, width: 2),
+                        assetName: asset.title ?? '',
+                        category: asset.status.toString().capitalize() ?? '',
+                        vendor: asset.vendor?.name.toString() ?? '',
+                        purchaseDate: asset.registrationDateDisplay ?? '',
+                        warrantyDate: asset.warrantyDateDisplay ?? '',
+                        assignedTo: asset.assign?.name,
+                        onViewDetail: () {
+                          setState(() {
+                            selectedAssetIds.clear();
+                            if (!isSelected) {
+                              selectedAssetIds
+                                  .add(asset.id ?? 0); // Select the new one
+                            }
+                          });
+                        },
+                        onTab: () {},
+                        isAssigned: true,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            );
     }
 
     Widget bottomViewForCancelAndAssignStatus() {
       return BlocBuilder<AssetsManagementBloc, AssetsManagementState>(
         bloc: assetsManagementBloc,
         builder: (context, state) {
-          final assetDetailData = assetsManagementBloc.unassignedBarcodesAssetsList;
+          final assetDetailData =
+              assetsManagementBloc.unassignedBarcodesAssetsList;
           bool isAnySelected = selectedAssetIds.isNotEmpty;
-
-          return assetDetailData == null ?  SizedBox():
-
-
-            Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Container(
-                color: Colors.grey.shade100,
-
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 0, left: 17, right: 17, top: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // 🟢 Update Status Button
-
-
-                      // 🟠 Assign Barcode Button
-
-
-
-                      // 🔴 Cancel Button
-                      Expanded(
-                        child: AppButton(
-                          buttonName: 'Cancel',
-
-                          buttonColor: Colors.white,
-                          buttonBorderColor: Colors.grey,
-                          textStyle: appTextStyle.appTitleStyle(color: Colors.black),
-                          flutterIcon: Icons.close_rounded,
-                          iconColor: Colors.black,
-                          isShowIcon: true,
-                          isLoader: false,
-                          backCallback: () {
-                            Navigator.pop(context);
-                            print('Cancel Clicked');
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: 15),
-                      Expanded(
-                        child: AppButton(
-                          buttonName: 'Assign Barcode',
-                          buttonColor: isAnySelected
-                              ? AppColors.textBlueColor
-                              : Colors.grey.shade400,
-                          textStyle: appTextStyle.appTitleStyle(color: AppColors.white),
-                          flutterIcon: Icons.qr_code_2_outlined,
-                          iconColor: AppColors.white,
-                          isShowIcon: true,
-                          isLoader: state is AssignBarcodeToAssetLoadingState,
-                          backCallback: isAnySelected
-                              ? () {
-                            assetsManagementBloc.add(
-                              OnAssignBarcodeToAsset(
-                                barcode: widget.barcode ?? "",
-                                productId: selectedAssetIds.first,
+          return assetDetailData.isEmpty
+              ? SizedBox()
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Container(
+                      color: Colors.grey.shade100,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            bottom: 0, left: 17, right: 17, top: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: AppButton(
+                                buttonName: AppString.cancel,
+                                buttonColor: Colors.white,
+                                buttonBorderColor: Colors.grey,
+                                textStyle: appTextStyle.appTitleStyle(
+                                    color: Colors.black),
+                                flutterIcon: Icons.close_rounded,
+                                iconColor: Colors.black,
+                                isShowIcon: true,
+                                isLoader: false,
+                                backCallback: () {
+                                  Navigator.pop(context);
+                                },
                               ),
-                            );
-                            print('Assign Barcode for IDs: $selectedAssetIds');
-                          }
-                              : null,
+                            ),
+                            const SizedBox(width: 15),
+                            Expanded(
+                              child: AppButton(
+                                buttonName: AppString.assignBarcode,
+                                buttonColor: isAnySelected
+                                    ? AppColors.textBlueColor
+                                    : Colors.grey.shade400,
+                                textStyle: appTextStyle.appTitleStyle(
+                                    color: AppColors.white),
+                                flutterIcon: Icons.qr_code_2_outlined,
+                                iconColor: AppColors.white,
+                                isShowIcon: true,
+                                isLoader:
+                                    state is AssignBarcodeToAssetLoadingState,
+                                backCallback: isAnySelected
+                                    ? () {
+                                        assetsManagementBloc.add(
+                                          OnAssignBarcodeToAsset(
+                                            barcode: widget.barcode ?? "",
+                                            productId: selectedAssetIds.first,
+                                          ),
+                                        );
+                                      }
+                                    : null,
+                              ),
+                            ),
+                          ],
                         ),
-
                       ),
-
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          );
+                    ),
+                  ],
+                );
         },
       );
     }
 
-
-
     return ContainerFirst(
-      contextCurrentView: context,
+        contextCurrentView: context,
         isSingleChildScrollViewNeed: false,
         isFixedDeviceHeight: true,
         isListScrollingNeed: true,
         isOverLayStatusBar: false,
-      appBarHeight: 56,
-      appBar: CommonAppBar(
-        title: AppString.assetsManagement,
-        icon: WorkplaceIcons.backArrow,
-        isHideBorderLine: true,
-      ),
-      containChild: BlocListener<AssetsManagementBloc, AssetsManagementState>(
-        bloc: assetsManagementBloc,
-        listener: (context, state) {
-
-          if (state is AssignBarcodeToAssetErrorState) {
-            WorkplaceWidgets.errorSnackBar(context, state.errorMessage);
-          }
-
-
-          // if (state is AddAssetCategoryErrorState) {
-          //   WorkplaceWidgets.errorSnackBar(context, state.errorMessage);
-          // }
-
-          if (state is AssignBarcodeToAssetDoneState) {
-            Navigator.pop(context, true);
-            WorkplaceWidgets.successToast(state.message);
-          }
-
-
-
-          // TODO: implement listener
-          // if (state is CheckBarcodeDoneState) {
-          //   showDialog(
-          //     context: context,
-          //     builder: (context) => WorkplaceWidgets.productNotFound(
-          //         title: "Product Not Found",
-          //         content:
-          //         'The scanned barcode ${state.barcode} is not in the system. Would you like to assign it to an existing item or add it as a new item?',
-          //         buttonName1: "Cancel",
-          //         buttonName2: "Add New Item",
-          //         buttonName3: "Assign To Existing Item",
-          //         onPressedButton1: () => Navigator.pop(context),
-          //         onPressedButton2: () {
-          //           Navigator.pop(context);
-          //           // Handle add new item
-          //         },
-          //         onPressedButton3: (){
-          //
-          //
-          //         }
-          //       // button1Color: Colors.grey.shade100,
-          //       // button2Color: AppColors.appBlue,
-          //     ),
-          //   );
-          // }
-
-        },
-        child: BlocBuilder<AssetsManagementBloc, AssetsManagementState>(
-          bloc: assetsManagementBloc,
-          builder: (context, state) {
-            return  Stack(
-              children: [
-                Column(
-                  children: [
-                    searchBar(),
-                    const SizedBox(height: 10),
-                    filters(),
-
-                    assetsCardView(state),
-                  ],
-                ),
-                if (state is GetUnassignedBarcodesAssetsLoadingState &&isShowLoader )
-
-                  WorkplaceWidgets.progressLoader(context),
-
-              ],
-            );
-          },
+        appBarHeight: 56,
+        appBar: CommonAppBar(
+          title: AppString.assetsManagement,
+          icon: WorkplaceIcons.backArrow,
+          isHideBorderLine: true,
         ),
-      ),
-      bottomMenuView: bottomViewForCancelAndAssignStatus()
-    );
+        containChild: BlocListener<AssetsManagementBloc, AssetsManagementState>(
+          bloc: assetsManagementBloc,
+          listener: (context, state) {
+            if (state is AssignBarcodeToAssetErrorState) {
+              WorkplaceWidgets.errorSnackBar(context, state.errorMessage);
+            }
+
+            if (state is AssignBarcodeToAssetDoneState) {
+              Navigator.pop(context, true);
+              WorkplaceWidgets.successToast(state.message);
+            }
+          },
+          child: BlocBuilder<AssetsManagementBloc, AssetsManagementState>(
+            bloc: assetsManagementBloc,
+            builder: (context, state) {
+              return Stack(
+                children: [
+                  Column(
+                    children: [
+                      searchBar(),
+                      const SizedBox(height: 10),
+                      filtersRow(),
+                      assetsCardView(state),
+                    ],
+                  ),
+                  if (state is GetUnassignedBarcodesAssetsLoadingState &&
+                      isShowLoader)
+                    WorkplaceWidgets.progressLoader(context),
+                ],
+              );
+            },
+          ),
+        ),
+        bottomMenuView: bottomViewForCancelAndAssignStatus());
   }
 }

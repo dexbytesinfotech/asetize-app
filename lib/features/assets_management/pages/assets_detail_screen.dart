@@ -31,10 +31,8 @@ class AssetsListDetailScreen extends StatefulWidget {
 
 class _AssetsListScreenState extends State<AssetsListDetailScreen> {
   late AssetsManagementBloc assetsManagementBloc;
-
   bool isShowLoader = true;
   bool isInitialLoading = false;
-
   @override
   void initState() {
     assetsManagementBloc = BlocProvider.of<AssetsManagementBloc>(context);
@@ -731,62 +729,6 @@ class _AssetsListScreenState extends State<AssetsListDetailScreen> {
       );
     }
 
-    // Widget productHistoryCardView(assetDetailData) {
-    //   return CommonCardView(
-    //     margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-    //     child: Padding(
-    //       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20)
-    //           .copyWith(bottom: 10),
-    //       child: Column(
-    //         crossAxisAlignment: CrossAxisAlignment.start,
-    //         children: [
-    //           /// 🔹 Title Row
-    //           const CommonTitleRowWithIcon(
-    //             title: 'Product History',
-    //             icon: Icons.history,
-    //           ),
-    //           const SizedBox(height: 20),
-    //
-    //           /// 🔹 Timeline Entries
-    //           buildTimelineEntry(
-    //             title: "Status Changed",
-    //             subtitle: "Status changed from 'Assigned' to 'Available'",
-    //             date: "Feb 20, 2024",
-    //             author: "Admin User",
-    //             time: "02:30 PM",
-    //           ),
-    //           const Divider(height: 30, color: Color(0xFFF1F1F3)),
-    //
-    //           buildTimelineEntry(
-    //             title: "Maintenance Completed",
-    //             subtitle: "Regular maintenance and software updates completed",
-    //             date: "Feb 15, 2024",
-    //             author: "Tech Team",
-    //             time: "10:15 AM",
-    //           ),
-    //           const Divider(height: 30, color: Color(0xFFF1F1F3)),
-    //
-    //           buildTimelineEntry(
-    //             title: "Assigned",
-    //             subtitle: "Asset assigned to John Doe",
-    //             date: "Feb 1, 2024",
-    //             author: "Admin User",
-    //             time: "09:00 AM",
-    //           ),
-    //           const Divider(height: 30, color: Color(0xFFF1F1F3)),
-    //
-    //           buildTimelineEntry(
-    //             title: "Registered",
-    //             subtitle: "Asset added to inventory",
-    //             date: "Jan 15, 2024",
-    //             author: "Admin User",
-    //             time: "11:30 AM",
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   );
-    // }
     Widget productHistoryCardView(AssetsManagementBloc bloc) {
       final historyList = bloc.assetHistoryData; // List<AssetHistoryData>
 
@@ -893,110 +835,6 @@ class _AssetsListScreenState extends State<AssetsListDetailScreen> {
         ),
       );
     }
-    // Widget barcodeCardView(assetDetailData) {
-    //   return CommonCardView(
-    //     margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-    //     child: Padding(
-    //       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20)
-    //           .copyWith(bottom: 10),
-    //       child: Column(
-    //         crossAxisAlignment: CrossAxisAlignment.start,
-    //         children: [
-    //           // 🔹 Title with Icon
-    //           Row(
-    //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //             children: [
-    //               CommonTitleRowWithIcon(
-    //                 title: 'Barcode',
-    //                 icon: Icons.qr_code_2_outlined,
-    //               ),
-    //               Container(
-    //                 margin: const EdgeInsets.only(right: 0, bottom: 0),
-    //                 child: SizedBox(
-    //                   width: 80,
-    //                   height: 32,
-    //                   child: OutlinedButton.icon(
-    //                     onPressed: () {
-    //
-    //                     },
-    //                     icon:
-    //                     const Icon(Icons.print, color: Colors.black, size: 16),
-    //                     label: Text(
-    //                       AppString.print,
-    //                       style: appStyles.userNameTextStyle(
-    //                         fontSize: 13,
-    //                         texColor: Colors.black,
-    //                         fontWeight: FontWeight.w500,
-    //                       ),
-    //                     ),
-    //                     style: OutlinedButton.styleFrom(
-    //                       side: const BorderSide(color: Colors.grey, width: 1),
-    //                       shape: RoundedRectangleBorder(
-    //                         borderRadius: BorderRadius.circular(8),
-    //                       ),
-    //                       padding: const EdgeInsets.symmetric(
-    //                           horizontal: 8, vertical: 4),
-    //                       backgroundColor: Color(0xFFF5F5F5),
-    //                       elevation: 0,
-    //                     ),
-    //                   ),
-    //                 ),
-    //               )
-    //             ],
-    //           ),
-    //
-    //           const SizedBox(height: 20),
-    //
-    //           // 🔹 Barcode container area
-    //           Container(
-    //             width: double.infinity,
-    //             decoration: BoxDecoration(
-    //               color: Colors.grey.shade50,
-    //               borderRadius: BorderRadius.circular(12),
-    //             ),
-    //             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 25),
-    //             child:
-    //
-    //             //
-    //
-    //
-    //             Column(
-    //               crossAxisAlignment: CrossAxisAlignment.center,
-    //               children: [
-    //                 // 🔹 Asset name
-    //           Image.asset("assets/images/barcode.jpg"),
-    //                 SizedBox(height: 15,),
-    //
-    //
-    //
-    //                 // 🔹 Scan info text
-    //                  Text(
-    //                   'Scan to view details',
-    //                    style: appTextStyle.appTitleStyle2(
-    //                        fontWeight: FontWeight.w500),
-    //                 ),
-    //
-    //                 const SizedBox(height: 10),
-    //
-    //                 // 🔹 Footer note
-    //                  Text(
-    //                   'Scan this code to quickly access asset information',
-    //                   textAlign: TextAlign.center,
-    //                   style:appTextStyle.appSubTitleStyle2(
-    //                     fontSize: 13,
-    //                       color: Colors.grey.shade600),
-    //                 ),
-    //               ],
-    //             ),
-    //           ),
-    //
-    //           const SizedBox(height: 15),
-    //         ],
-    //       ),
-    //     ),
-    //   );
-    // }
-
     Widget descriptionCardView(assetDetailData) {
       // Check if smallDescription is empty or null
       if (assetDetailData?.smallDescription == null ||

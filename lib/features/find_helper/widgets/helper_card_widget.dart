@@ -95,9 +95,8 @@ class HelperCardView extends StatelessWidget {
       );
     }
 
-
     return CommonCardView(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      margin: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 14),
         child: Row(

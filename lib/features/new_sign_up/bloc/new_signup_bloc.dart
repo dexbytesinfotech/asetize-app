@@ -213,7 +213,7 @@ class NewSignupBloc extends Bloc<NewSignupEvent, NewSignupState> {
             emit(GuestOtpVeifyErrorState(
                 errorMessage: jsonDecode(left.errorMessage)['error']));
           } else {
-            emit(GuestOtpVeifyErrorState(errorMessage: 'Something went wrong'));
+            emit(GuestOtpVeifyErrorState(errorMessage: 'Something went w  rong'));
           }
           
         }, (right) async {

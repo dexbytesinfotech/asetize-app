@@ -70,12 +70,12 @@ class SplashScreenState extends State<SplashScreen> {
         else if (initVar!.token.isEmpty) {
           return "/login";
         }
-        else if (initVar!.isCompleteProfile==false) {
-          return "/login/profileSetup"; // If profile is complete, go to search setup
-        }
-        else if (initVar!.selectedCompanyId==null || initVar!.selectedCompanyId!.isEmpty) {
-          return "/login/searchYourSocietyFo  rm"; // If pending, go to pending screen
-        }
+        // else if (initVar!.isCompleteProfile==false) {
+        //   return "/login/profileSetup"; // If profile is complete, go to search setup
+        // }
+        // else if (initVar!.selectedCompanyId==null || initVar!.selectedCompanyId!.isEmpty) {
+        //   return "/login/searchYourSocietyForm"; // If pending, go to pending screen
+        // }
         else {
           return "/login"; // Default redirect if no conditions match
         }

@@ -29,7 +29,6 @@ class AddAssetScreen extends StatefulWidget {
   final String? barcode;
   final  AssetListData? detailData;
   const AddAssetScreen({super.key, this.isEditMode= false, this.assetId, this.detailData, this.barcode});
-
   @override
   State<AddAssetScreen> createState() => _AddAssetScreenState();
 }
@@ -38,7 +37,6 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
   final _formKey = GlobalKey<FormState>();
   late AssetsManagementBloc assetsManagementBloc;
   DateTime? _selectedWarrantyDate;
-
   List<String> filteredCategories = [];
   List<String> filteredLocations = [];
   List<String> filteredVendors = [];
@@ -48,11 +46,7 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
   int selectedVendorId = 0;
   TextEditingController categoryController = TextEditingController();
   TextEditingController vendorController = TextEditingController();
-
-
-
   closeKeyboard() => FocusScope.of(context).requestFocus(FocusNode());
-
   List<File> selectedInvoiceCopyImages = [];
   late List<String> selectedInvoiceCopyImagesPaths = selectedInvoiceCopyImages.map((file) => file.path).toList();
   final Map<String, TextEditingController> controllers = {
@@ -61,13 +55,10 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
     'vendor': TextEditingController(),
     'purchaseDate': TextEditingController(),
     'smallDescription': TextEditingController(),
-    'expiryMonths': TextEditingController(),
     'warrantyMonths': TextEditingController(),
     'purchaseCost': TextEditingController(),
     'modelNumber': TextEditingController(),
     'manufacturer': TextEditingController(),
-    'licenseKey': TextEditingController(),
-    'accountCredential': TextEditingController(),
     'assetLocation': TextEditingController(),
     'longDescriptions': TextEditingController(),
   };
@@ -92,15 +83,9 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
   String? selectedExpiredMonths;
   String? selectedWarrantyMonths;
   DateTime? _selectedPurchaseDate;
-
-  final List<String> _expiredMonths = ['1 Month', '2 Months', '3 Months', '4 Months', '5 Months', '6 Months', '7 Months'];
   final List<String> _warrantyMonths = ['1 Month', '3 Months', '6 Months', '12 Months', '18 Months', '24 Months', '36 Months'];
-
-
-
   void setData() {
     if(widget.isEditMode == false){
-
       return ;
     }
     selectCategoryId = widget.detailData?.category?.id ??0;
@@ -124,29 +109,8 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
     controllers['purchaseCost']?.text =  (widget.detailData?.purchaseCost.toString() ?? '');
     controllers['modelNumber']?.text =  (widget.detailData?.modelNumber ?? '').capitalize();
     controllers['manufacturer']?.text =  (widget.detailData?.manufacture ?? '').capitalize();
-    controllers['longDescriptions']?.text =  (widget.detailData?.description ?? '').capitalize();
+    controllers['longDescriptions']?.text =  (widget  .detailData?.description ?? '').capitalize();
     controllers['assetLocation']?.text =  (widget.detailData?.location ?? '').capitalize();
-  }
-
-
-
-@override
-  void initState() {
-  assetsManagementBloc = BlocProvider.of<AssetsManagementBloc>(context);
-  assetsManagementBloc.add(OnGetAssetsCategoryList(mContext: context));
-  assetsManagementBloc.add(OnGetVendorList(mContext: context));
-  assetsManagementBloc.add(OnGetAssetsLocationList(mContext: context));
-
-  setData();
-  super.initState();
-  }
-
-
-  @override
-  void dispose() {
-    controllers.forEach((key, controller) => controller.dispose());
-    focusNodes.forEach((key, focusNode) => focusNode.dispose());
-    super.dispose();
   }
 
   void selectDate(BuildContext context) async {
@@ -163,6 +127,7 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
       });
     }
   }
+
   void selectWarrantyDate(BuildContext context) async {
     final DateTime? initialDate = _selectedWarrantyDate ??
         (widget.detailData?.warrantyDateDisplay != null
@@ -199,6 +164,49 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
     );
   }
 
+
+
+  bool validateFields() {
+    final title = controllers['title']?.text.trim();
+    final category = controllers['category']?.text.trim();
+    final vendor = controllers['vendor']?.text.trim();
+    final purchaseDate = controllers['purchaseDate']?.text.trim();
+    final purchaseCost = controllers['purchaseCost']?.text.trim();
+    final smallDescription = controllers['smallDescription']?.text.trim();
+    return
+      (category?.isNotEmpty ?? false) &&
+          (vendor?.isNotEmpty?? false) &&
+          (title?.isNotEmpty?? false) &&
+          (purchaseCost?.isNotEmpty ?? false)&&
+          (smallDescription?.isNotEmpty ?? false)&&
+          (purchaseDate?.isNotEmpty ?? false);
+  }
+
+  int? _parseMonths(String text) {
+    if (text.isEmpty) return null;
+    final match = RegExp(r'(\d+)').firstMatch(text);
+    return match == null ? null : int.tryParse(match.group(1)!);
+  }
+
+@override
+  void initState() {
+  assetsManagementBloc = BlocProvider.of<AssetsManagementBloc>(context);
+  assetsManagementBloc.add(OnGetAssetsCategoryList(mContext: context));
+  assetsManagementBloc.add(OnGetVendorList(mContext: context));
+  assetsManagementBloc.add(OnGetAssetsLocationList(mContext: context));
+  setData();
+  super.initState();
+  }
+
+
+  @override
+  void dispose() {
+    controllers.forEach((key, controller) => controller.dispose());
+    focusNodes.forEach((key, focusNode) => focusNode.dispose());
+    super.dispose();
+  }
+
+
   Widget titleWidget() {
     return CommonTextFieldWithError(
       focusNode: focusNodes['title']!,
@@ -215,12 +223,11 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
       focusedBorderColor: Colors.white,
       backgroundColor: AppColors.white,
       textInputAction: TextInputAction.next,
-      capitalization: CapitalizationText.sentences, // ✅ Capitalize first letter
-
+      capitalization: CapitalizationText.sentences,
       borderStyle: BorderStyle.solid,
       cursorColor: Colors.grey,
-      hintText: 'Enter Asset Title',
-      placeHolderTextWidget: const LabelWidget(labelText: 'Title', isRequired: true),
+      hintText: AppString.enterAssetTitle,
+      placeHolderTextWidget: const LabelWidget(labelText: AppString.titleLabel, isRequired: true),
       contentPadding: const EdgeInsets.symmetric(horizontal: 15),
       onTextChange: (value) {
         setState(() {});
@@ -230,43 +237,6 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
       },
     );
   }
-
-  // Widget categoryWidget() {
-  //   return CommonTextFieldWithError(
-  //     focusNode: focusNodes['category']!,
-  //     controllerT: controllers['category']!,
-  //     borderRadius: 8,
-  //     inputHeight: 50,
-  //     hintStyle: appStyles.hintTextStyle(),
-  //     textStyle: appStyles.textFieldTextStyle(),
-  //     maxCharLength: 50,
-  //     errorMsgHeight: 20,
-  //     showError: true,
-  //     readOnly: true,
-  //     autoFocus: false,
-  //     inputFieldSuffixIcon: WorkplaceWidgets.downArrowIcon(),
-  //     enabledBorderColor: Colors.white,
-  //     focusedBorderColor: Colors.white,
-  //     backgroundColor: AppColors.white,
-  //     textInputAction: TextInputAction.next,
-  //     borderStyle: BorderStyle.solid,
-  //     cursorColor: Colors.grey,
-  //     hintText: 'Select category',
-  //     placeHolderTextWidget: const LabelWidget(labelText: 'Category', isRequired: true),
-  //     contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-  //     onTapCallBack: () {
-  //       FocusScope.of(context).unfocus();
-  //       showBottomSheet(context, 'Select Category', _categories, 'category', (value) => _selectedCategory = value);
-  //     },
-  //     onTextChange: (value) {
-  //       setState(() {});
-  //
-  //     },
-  //     onEndEditing: (value) {
-  //       FocusScope.of(context).nextFocus();
-  //     },
-  //   );
-  // }
 
   Widget categoryWidget() {
     void filterCategories(String query) {
@@ -278,7 +248,6 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
             .toList()
             .where((name) => name.trim().isNotEmpty)
             .toList();
-
         showAddNewCategory = query.isNotEmpty && filteredCategories.isEmpty;
       });
     }
@@ -306,7 +275,7 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
               padding: const EdgeInsets.only(left: 3.0, bottom: 3),
               child: Text.rich(
                 TextSpan(
-                  text: 'Search Category',
+                  text: AppString.searchCategory,
                   style: appStyles.texFieldPlaceHolderStyle(),
                   children: [
                     TextSpan(
@@ -328,7 +297,7 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
             textInputAction: TextInputAction.next,
             borderStyle: BorderStyle.solid,
             inputKeyboardType: InputKeyboardTypeWithError.text,
-            hintText: 'Search Category',
+            hintText: AppString.searchCategory,
             hintStyle: appStyles.hintTextStyle(),
             textStyle: appStyles.textFieldTextStyle(),
             contentPadding: const EdgeInsets.only(left: 15, right: 15),
@@ -343,13 +312,7 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
               });
             },
             onTapCallBack: () {
-              // _scrollController.animateTo(
-              //   _scrollController.offset + 100.0,
-              //   duration: const Duration(milliseconds: 300),
-              //   curve: Curves.easeInOut,
-              // );
               setState(() {
-                // Show full category list when tapped
                 filteredCategories = assetsManagementBloc.assetsCategoryListData!
                     .map((category) => category.name ?? '')
                     .where((name) => name.trim().isNotEmpty)
@@ -386,7 +349,7 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                     return ListTile(
                       title: Center(
                         child: Text(
-                          'Add New Category',
+                          AppString.addCategory,
                           style: appStyles.textFieldTextStyle().copyWith(
                             color: AppColors.appBlueColor,
                           ),
@@ -396,41 +359,30 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                         WorkplaceWidgets.addNewItem(
                           context: context,
                           controller: categoryController,
-                          title: "Add New Category",
-                          labelText: "Category Name",
-                          hintText: "Enter category name",
-                          confirmButtonText: "Add Category",
+                          title: AppString.addNewCategory,
+                          labelText: AppString.categoryName,
+                          hintText: AppString.enterCategoryName,
+                          confirmButtonText: AppString.addCategory,
                           onAddItem: () async {
                             final newCategoryName = categoryController.text.trim();
                             if (newCategoryName.isEmpty) return;
-
-                            // Call BLoC event to add new category
                             assetsManagementBloc.add(OnAddAssetCategoryEvent(
                               mContext: context,
                               title: newCategoryName,
                             ));
-
-                            // Wait briefly for the list to refresh (optional: adjust delay if needed)
                             await Future.delayed(const Duration(milliseconds: 500));
-
-                            // Fetch updated list
                             assetsManagementBloc.add(OnGetAssetsCategoryList(mContext: context));
-
-                            // Update field and selected ID after adding
                             setState(() {
                               controllers['category']?.text = newCategoryName;
-
                               final newCategory = assetsManagementBloc.assetsCategoryListData!
                                   .firstWhere(
                                     (cat) => (cat.name ?? '').toLowerCase() == newCategoryName.toLowerCase(),
                                 orElse: () => AssetsCategoryListData(id: 0, name: newCategoryName),
                               );
-
                               selectCategoryId = newCategory.id ?? 0;
                               filteredCategories.clear();
                               showAddNewCategory = false;
                             });
-
                             Navigator.pop(context);
                           },
                         );
@@ -438,11 +390,9 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
 
                     );
                   }
-
                   final selectedCategory =
                   assetsManagementBloc.assetsCategoryListData!.firstWhere(
                           (cat) => cat.name == filteredCategories[index]);
-
                   return ListTile(
                     title: Text(
                       filteredCategories[index],
@@ -464,7 +414,6 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
       ),
     );
   }
-
 
   Widget assetLocationWidget() {
     void filterLocations(String query) {
@@ -505,7 +454,6 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
             borderStyle: BorderStyle.solid,
             inputKeyboardType: InputKeyboardTypeWithError.multiLine,
               contentPadding: const EdgeInsets.all(10),
-
             onTextChange: (value) {
               filterLocations(value);
             },
@@ -522,7 +470,6 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
             },
             onTapCallBack: () {
               setState(() {
-
                 filteredLocations = assetsManagementBloc.assetsLocationListData
                     .map((location) => location.name ?? '')
                     .where((name) => name.trim().isNotEmpty)
@@ -553,11 +500,6 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                 padding: EdgeInsets.zero,
                 itemCount: filteredLocations.length,
                 itemBuilder: (context, index) {
-                  // final selectedLocation =
-                  // assetsManagementBloc.assetsLocationListData.firstWhere(
-                  //       (loc) => loc.name == filteredLocations[index],
-                  // );
-
                   return ListTile(
                     dense: true, // makes tile more compact
                     visualDensity: const VisualDensity(vertical: -3),
@@ -580,8 +522,6 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
       ),
     );
   }
-
-
 
   Widget vendorWidget() {
     void filterVendors(String query) {
@@ -607,12 +547,12 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
           CommonTextFieldWithError(
             controllerT: controllers['vendor'],
             focusNode: focusNodes['vendor'],
-            hintText: 'Search Vendor',
+            hintText: AppString.searchVendor,
             placeHolderTextWidget: Padding(
               padding: const EdgeInsets.only(left: 3.0, bottom: 3),
               child: Text.rich(
                 TextSpan(
-                  text: 'Search Vendor',
+                  text: AppString.searchVendor,
                   style: appStyles.texFieldPlaceHolderStyle(),
                   children: [
                     TextSpan(
@@ -677,20 +617,20 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                     return ListTile(
                       title: Center(
                         child: Text(
-                          'Add New Vendor',
+                          AppString.addNewVendor,
                           style: appStyles.textFieldTextStyle().copyWith(
                             color: AppColors.appBlueColor,
                           ),
                         ),
                       ),
                       onTap: () {
-                        WorkplaceWidgets.addNewItem( // ✅ reuse existing dialog
+                        WorkplaceWidgets.addNewItem(
                           context: context,
                           controller: vendorController,
-                          title: "Add New Vendor",
-                          labelText: "Vendor Name",
-                          hintText: "Enter vendor name",
-                          confirmButtonText: "Add Vendor",
+                          title:   AppString.addNewVendor,
+                          labelText: AppString.vendorName,
+                          hintText: AppString.enterVendorName,
+                          confirmButtonText:   AppString.addVendor,
                           onAddItem: () async {
                             final newVendorName = vendorController.text.trim();
                             if (newVendorName.isEmpty) return;
@@ -759,8 +699,6 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
     );
   }
 
-
-
   Widget purchaseDateWidget() {
     return CommonTextFieldWithError(
       focusNode: focusNodes['purchaseDate']!,
@@ -781,8 +719,8 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
       textInputAction: TextInputAction.next,
       borderStyle: BorderStyle.solid,
       cursorColor: Colors.grey,
-      hintText: "Select purchase date",
-      placeHolderTextWidget: const LabelWidget(labelText: 'Purchase Date', isRequired: true),
+      hintText: AppString.selectPurchaseDate,
+      placeHolderTextWidget: const LabelWidget(labelText: AppString.purchaseDateLabel, isRequired: true),
       contentPadding: const EdgeInsets.symmetric(horizontal: 15),
       onTapCallBack: () => selectDate(context),
       onTextChange: (value) {
@@ -801,7 +739,6 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
       controllerT: controllers['smallDescription'],
       borderRadius: 8,
       inputHeight: 140,
-
       hintStyle: appStyles.hintTextStyle(),
       textStyle: appStyles.textFieldTextStyle(),
       maxCharLength: 500,
@@ -817,9 +754,9 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
       textInputAction: TextInputAction.newline,
       borderStyle: BorderStyle.solid,
       inputKeyboardType: InputKeyboardTypeWithError.multiLine,
-      hintText: 'Enter a Small Description',
+      hintText: AppString.enterSmallDescription,
       placeHolderTextWidget: const LabelWidget(
-        labelText: 'Small Description',
+        labelText: AppString.smallDescriptionLabel,
         isRequired: true,
       ),
       contentPadding: const EdgeInsets.all(10),
@@ -831,46 +768,9 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
 
   }
 
-  Widget expiryMonthsWidget() {
-    return CommonTextFieldWithError(
-      focusNode: focusNodes['expiryMonths']!,
-      controllerT: controllers['expiryMonths']!,
-      borderRadius: 8,
-      inputHeight: 50,
-      inputFieldSuffixIcon: WorkplaceWidgets.downArrowIcon(),
-      hintStyle: appStyles.hintTextStyle(),
-      textStyle: appStyles.textFieldTextStyle(),
-      maxCharLength: 3,
-      errorMsgHeight: 20,
-      showError: false,
-      autoFocus: false,
-
-      enabledBorderColor: Colors.white,
-      focusedBorderColor: Colors.white,
-      backgroundColor: AppColors.white,
-      textInputAction: TextInputAction.next,
-      borderStyle: BorderStyle.solid,
-      cursorColor: Colors.grey,
-      hintText: 'Select Expiry Months',
-      placeHolderTextWidget: const LabelWidget(labelText: 'Expiry Months', isRequired: false),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-      onTapCallBack: (){
-        FocusScope.of(context).unfocus();
-        showBottomSheet(context, 'Select Expiry Months', _expiredMonths, 'expiryMonths', (value) => selectedExpiredMonths = value);
-      },
-      onTextChange: (value) {},
-      onEndEditing: (value) {
-        FocusScope.of(context).nextFocus();
-      },
-    );
-  }
-
   Widget warrantyMonthsWidget() {
-    // Check if we are in edit mode AND warranty date is available
     final bool showCalendar = widget.isEditMode &&
         (widget.detailData?.warrantyDateDisplay?.isNotEmpty ?? false);
-
-    // Parse the display date if available (e.g., "May 14, 2026" → DateTime)
     DateTime? warrantyDate;
     if (showCalendar) {
       try {
@@ -885,10 +785,10 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
       controllerT: controllers['warrantyMonths']!,
       borderRadius: 8,
       inputHeight: 50,
-      readOnly: true, // Important: make it read-only when showing calendar
+      readOnly: true,
       inputFieldSuffixIcon: showCalendar
-          ? WorkplaceWidgets.calendarIcon() // Calendar icon in edit mode with date
-          : WorkplaceWidgets.downArrowIcon(), // Dropdown arrow otherwise
+          ? WorkplaceWidgets.calendarIcon()
+          : WorkplaceWidgets.downArrowIcon(),
 
       hintStyle: appStyles.hintTextStyle(),
       textStyle: appStyles.textFieldTextStyle(),
@@ -902,21 +802,18 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
       textInputAction: TextInputAction.next,
       borderStyle: BorderStyle.solid,
       cursorColor: Colors.grey,
-      hintText: showCalendar ? 'Select Warranty Date' : 'Select Warranty',
+      hintText: showCalendar ? AppString.selectWarrantyDate : AppString.selectWarranty,
       placeHolderTextWidget: const LabelWidget(labelText: 'Warranty', isRequired: false),
       contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-
       onTapCallBack: () {
         FocusScope.of(context).unfocus();
 
         if (showCalendar) {
-          // === Show Date Picker for Warranty Expiry Date ===
           selectWarrantyDate(context);
         } else {
-          // === Show Dropdown for fixed months ===
           showBottomSheet(
             context,
-            'Select Warranty',
+           AppString.selectWarranty,
             _warrantyMonths,
             'warrantyMonths',
                 (value) {
@@ -932,10 +829,6 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
       onEndEditing: (value) => FocusScope.of(context).nextFocus(),
     );
   }
-
-// Add this helper method in your _AddAssetScreenState class
-
-
 
   Widget purchaseCostWidget() {
     return CommonTextFieldWithError(
@@ -956,8 +849,8 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
       textInputAction: TextInputAction.next,
       borderStyle: BorderStyle.solid,
       cursorColor: Colors.grey,
-      hintText: 'Enter Purchase Cost',
-      placeHolderTextWidget: const LabelWidget(labelText: 'Purchase Cost', isRequired: true),
+      hintText: AppString.enterPurchaseCost,
+      placeHolderTextWidget: const LabelWidget(labelText: AppString.purchaseCostLabel, isRequired: true),
       contentPadding: const EdgeInsets.symmetric(horizontal: 15),
       onTextChange: (value) {
         setState(() {});
@@ -975,8 +868,7 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
       controllerT: controllers['modelNumber']!,
       borderRadius: 8,
       inputHeight: 50,
-      capitalization: CapitalizationText.sentences, // ✅ Capitalize first letter
-
+      capitalization: CapitalizationText.sentences,
       hintStyle: appStyles.hintTextStyle(),
       textStyle: appStyles.textFieldTextStyle(),
       maxCharLength: 50,
@@ -989,8 +881,8 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
       textInputAction: TextInputAction.next,
       borderStyle: BorderStyle.solid,
       cursorColor: Colors.grey,
-      hintText: 'Enter Model Number',
-      placeHolderTextWidget: const LabelWidget(labelText: 'Model Number', isRequired: false),
+      hintText: AppString.enterModelNumber,
+      placeHolderTextWidget: const LabelWidget(labelText: AppString.modelNumberLabel, isRequired: false),
       contentPadding: const EdgeInsets.symmetric(horizontal: 15),
       onTextChange: (value) {},
       onEndEditing: (value) {
@@ -1017,8 +909,8 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
       textInputAction: TextInputAction.next,
       borderStyle: BorderStyle.solid,
       cursorColor: Colors.grey,
-      hintText: 'Enter Manufacture',
-      placeHolderTextWidget: const LabelWidget(labelText: 'Manufacture', isRequired: false),
+      hintText: AppString.enterManufacture,
+      placeHolderTextWidget: const LabelWidget(labelText: AppString.manufactureLabel, isRequired: false),
       contentPadding: const EdgeInsets.symmetric(horizontal: 15),
       onTextChange: (value) {},
       onEndEditing: (value) {
@@ -1026,62 +918,6 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
       },
     );
   }
-
-  // Widget licenseKeyWidget() {
-  //   return CommonTextFieldWithError(
-  //     focusNode: focusNodes['licenseKey']!,
-  //     controllerT: controllers['licenseKey']!,
-  //     borderRadius: 8,
-  //     inputHeight: 50,
-  //     hintStyle: appStyles.hintTextStyle(),
-  //     textStyle: appStyles.textFieldTextStyle(),
-  //     maxCharLength: 50,
-  //     errorMsgHeight: 20,
-  //     showError: false,
-  //     autoFocus: false,
-  //     enabledBorderColor: Colors.white,
-  //     focusedBorderColor: Colors.white,
-  //     backgroundColor: AppColors.white,
-  //     textInputAction: TextInputAction.next,
-  //     borderStyle: BorderStyle.solid,
-  //     cursorColor: Colors.grey,
-  //     hintText: 'Enter License Key',
-  //     placeHolderTextWidget: const LabelWidget(labelText: 'License Key', isRequired: false),
-  //     contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-  //     onTextChange: (value) {},
-  //     onEndEditing: (value) {
-  //       FocusScope.of(context).nextFocus();
-  //     },
-  //   );
-  // }
-  //
-  // Widget accountCredentialWidget() {
-  //   return CommonTextFieldWithError(
-  //     focusNode: focusNodes['accountCredential']!,
-  //     controllerT: controllers['accountCredential']!,
-  //     borderRadius: 8,
-  //     inputHeight: 50,
-  //     hintStyle: appStyles.hintTextStyle(),
-  //     textStyle: appStyles.textFieldTextStyle(),
-  //     maxCharLength: 50,
-  //     errorMsgHeight: 20,
-  //     showError: false,
-  //     autoFocus: false,
-  //     enabledBorderColor: Colors.white,
-  //     focusedBorderColor: Colors.white,
-  //     backgroundColor: AppColors.white,
-  //     textInputAction: TextInputAction.next,
-  //     borderStyle: BorderStyle.solid,
-  //     cursorColor: Colors.grey,
-  //     hintText: 'Enter Account Credential',
-  //     placeHolderTextWidget: const LabelWidget(labelText: 'Account Credential', isRequired: false),
-  //     contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-  //     onTextChange: (value) {},
-  //     onEndEditing: (value) {
-  //       FocusScope.of(context).nextFocus();
-  //     },
-  //   );
-  // }
 
   Widget longDescriptionsWidget() {
 
@@ -1105,9 +941,9 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
       textInputAction: TextInputAction.newline,
       borderStyle: BorderStyle.solid,
       inputKeyboardType: InputKeyboardTypeWithError.multiLine,
-      hintText: 'Enter a Long Description',
+      hintText:  AppString.enterLongDescription,
       placeHolderTextWidget: const LabelWidget(
-        labelText: 'Long Descriptions',
+        labelText: AppString.longDescriptionsLabel,
         isRequired: false,
       ),
       contentPadding: const EdgeInsets.all(10),
@@ -1234,7 +1070,7 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                       color: AppColors.appBlueColor, size: 40),
                   SizedBox(height: 8),
                   Text(
-                    "Click to upload images",
+                    AppString.uploadImage,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 15,
@@ -1243,7 +1079,7 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                   ),
                   SizedBox(height: 4),
                   Text(
-                    "Supports JPG, PNG, GIF up to 5MB each",
+                  AppString.uploadImageType,
                     style: TextStyle(color: Colors.grey, fontSize: 12),
                   ),
                 ],
@@ -1254,34 +1090,6 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
       ),
     );
   }
-
-
-  bool validateFields() {
-    final title = controllers['title']?.text.trim();
-    final category = controllers['category']?.text.trim();
-    final vendor = controllers['vendor']?.text.trim();
-    final purchaseDate = controllers['purchaseDate']?.text.trim();
-    final purchaseCost = controllers['purchaseCost']?.text.trim();
-    final smallDescription = controllers['smallDescription']?.text.trim();
-    return
-        (category?.isNotEmpty ?? false) &&
-        (vendor?.isNotEmpty?? false) &&
-            (title?.isNotEmpty?? false) &&
-        (purchaseCost?.isNotEmpty ?? false)&&
-        (smallDescription?.isNotEmpty ?? false)&&
-        (purchaseDate?.isNotEmpty ?? false);
-  }
-
-  int? _parseMonths(String text) {
-    if (text.isEmpty) return null;
-    final match = RegExp(r'(\d+)').firstMatch(text);
-    return match == null ? null : int.tryParse(match.group(1)!);
-  }
-
-
-
-
-
 
   Widget submitButtonWidget(state) {
     return AppButton(
@@ -1295,7 +1103,6 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
               if (purchaseDate != null) {
                 formattedPurchaseDate = projectUtil.submitDateFormat(purchaseDate); // e.g., '2025-05-30'
               }
-
               if (widget.isEditMode == false){
                 assetsManagementBloc.add(OnAddAssetEvent(
                   title: controllers['title']!.text.trim(),
@@ -1303,7 +1110,7 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                   vendorId: selectedVendorId,
                   purChaseDate: formattedPurchaseDate,
                   smallDescription: controllers['smallDescription']!.text.trim(),
-                  expiryMonths: _parseMonths(controllers['expiryMonths']!.text),
+                  // expiryMonths: _parseMonths(controllers['expiryMonths']!.text),
                   warrantyMonths: _parseMonths(controllers['warrantyMonths']!.text),
                   purchaseCost: double.tryParse(controllers['purchaseCost']!.text.trim()) ?? 0.0,
                   modelNumber: controllers['modelNumber']!.text.trim().isEmpty
@@ -1312,12 +1119,12 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                   manufacturer: controllers['manufacturer']!.text.trim().isEmpty
                       ? null
                       : controllers['manufacturer']!.text.trim(),
-                  licenseKey: controllers['licenseKey']!.text.trim().isEmpty
-                      ? null
-                      : controllers['licenseKey']!.text.trim(),
-                  accountCredential: controllers['accountCredential']!.text.trim().isEmpty
-                      ? null
-                      : controllers['accountCredential']!.text.trim(),
+                  // licenseKey: controllers['licenseKey']!.text.trim().isEmpty
+                  //     ? null
+                  //     : controllers['licenseKey']!.text.trim(),
+                  // accountCredential: controllers['accountCredential']!.text.trim().isEmpty
+                  //     ? null
+                  //     : controllers['accountCredential']!.text.trim(),
                   longDescription: controllers['longDescriptions']!.text.trim().isEmpty
                       ? null
                       : controllers['longDescriptions']!.text.trim(),
@@ -1342,7 +1149,7 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                   vendorId: selectedVendorId,
                   purChaseDate: formattedPurchaseDate,
                   smallDescription: controllers['smallDescription']!.text.trim(),
-                  expiryMonths: _parseMonths(controllers['expiryMonths']!.text),
+                  // expiryMonths: _parseMonths(controllers['expiryMonths']!.text),
                   warrantyMonths: formattedWarrantyDate,
                   purchaseCost: double.tryParse(controllers['purchaseCost']!.text.trim()) ?? 0.0,
                   modelNumber: controllers['modelNumber']!.text.trim().isEmpty
@@ -1351,12 +1158,12 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                   manufacturer: controllers['manufacturer']!.text.trim().isEmpty
                       ? null
                       : controllers['manufacturer']!.text.trim(),
-                  licenseKey: controllers['licenseKey']!.text.trim().isEmpty
-                      ? null
-                      : controllers['licenseKey']!.text.trim(),
-                  accountCredential: controllers['accountCredential']!.text.trim().isEmpty
-                      ? null
-                      : controllers['accountCredential']!.text.trim(),
+                  // licenseKey: controllers['licenseKey']!.text.trim().isEmpty
+                  //     ? null
+                  //     : controllers['licenseKey']!.text.trim(),
+                  // accountCredential: controllers['accountCredential']!.text.trim().isEmpty
+                  //     ? null
+                  //     : controllers['accountCredential']!.text.trim(),
                   longDescription: controllers['longDescriptions']!.text.trim().isEmpty
                       ? null
                       : controllers['longDescriptions']!.text.trim(),
@@ -1367,13 +1174,6 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                 ));
 
               }
-
-
-
-
-
-
-
       }: null
     );
   }
@@ -1397,15 +1197,9 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
           if (state is AddAssetErrorState) {
             WorkplaceWidgets.errorSnackBar(context, state.errorMessage);
           }
-
           if (state is UpdateAssetErrorState) {
             WorkplaceWidgets.errorSnackBar(context, state.errorMessage);
           }
-
-
-          // if (state is AddAssetCategoryErrorState) {
-          //   WorkplaceWidgets.errorSnackBar(context, state.errorMessage);
-          // }
 
           if (state is AddAssetDoneState) {
             Navigator.pop(context, true);
@@ -1416,12 +1210,10 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
             WorkplaceWidgets.successToast(state.message);
           }
 
-
           },
         child: BlocBuilder<AssetsManagementBloc, AssetsManagementState>(
           bloc: assetsManagementBloc,
           builder: (context, state) {
-
             return Form(
               key: _formKey,
               child: Stack(
@@ -1440,8 +1232,6 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                         const SizedBox(height: 10),
                         smallDescriptionWidget(),
                         const SizedBox(height: 10),
-                        // expiryMonthsWidget(),
-                        // const SizedBox(height: 10),
                         warrantyMonthsWidget(),
                         const SizedBox(height: 10),
                         purchaseCostWidget(),
@@ -1450,16 +1240,10 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                         const SizedBox(height: 10),
                         manufacturerWidget(),
                         const SizedBox(height: 10),
-                        // licenseKeyWidget(),
-                        // const SizedBox(height: 10),
-                        // accountCredentialWidget(),
-                        // const SizedBox(height: 10),
                         longDescriptionsWidget(),
                         const SizedBox(height: 10),
-
                         assetLocationWidget(),
                          SizedBox(height: widget.isEditMode ? 0: 10),
-
                         if (widget.isEditMode == false)
                         invoiceCopy(),
                         const SizedBox(height: 40),
@@ -1475,8 +1259,6 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
           },
         ),
       )
-
-
     );
   }
 }

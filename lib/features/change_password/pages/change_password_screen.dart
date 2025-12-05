@@ -46,8 +46,11 @@ class ChangePasswordScreenState extends State<ChangePasswordScreen> {
   late UserProfileBloc bloc;
   @override
   void initState() {
+
     bloc = BlocProvider.of<UserProfileBloc>(context);
     controllers['old_password']?.addListener(() => setState(() {}));
+
+
     super.initState();
   }
 

@@ -749,11 +749,11 @@ class AssetsManagementBloc extends Bloc<AssetsManagementEvent, AssetsManagementS
       emit(GetMyAssetListLoadingState());
 
 
-      // if (event.isClearAssetList==true){
-      //
-      //   myAssetListData.clear();
-      //
-      // }
+      if (event.isClearAssetList==true){
+
+        myAssetListData.clear();
+
+      }
       //
       //
       // if (event.nextPageKey == 1) {
@@ -820,10 +820,8 @@ class AssetsManagementBloc extends Bloc<AssetsManagementEvent, AssetsManagementS
           if (right != null && right.containsKey('error')) {
             emit(GetMyAssetListErrorState(errorMessage: "${right['error']}"));
           } else {
-
             nextPageUrl = AssetListModel.fromJson(right).pagination?.nextPageApiUrl ?? '';
             currentPage = AssetListModel.fromJson(right).pagination?.currentPage ?? 1;
-
             final newItems = AssetListModel.fromJson(right).data ?? [];
 
             // for (final item in newItems) {

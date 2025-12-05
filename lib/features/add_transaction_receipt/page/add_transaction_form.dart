@@ -10,7 +10,6 @@ import '../../../core/util/app_permission.dart';
 import '../../../core/util/app_theme/text_style.dart';
 import '../../../imports.dart';
 import '../../../widgets/commonTitleRowWithIcon.dart';
-import '../../account_books/pages/account_books_screen.dart';
 import '../../account_books/pages/member_screen.dart';
 import '../bloc/add_transaction_receipt_bloc.dart';
 import '../bloc/add_transaction_receipt_event.dart';

@@ -16,7 +16,6 @@ import 'features/complaints/bloc/complaint_bloc/complaint_bloc.dart';
 import 'features/complaints/bloc/house_block_bloc/house_block_bloc.dart';
 import 'features/create_post/bloc/create_post_bloc.dart';
 import 'features/faq/bloc/faq_bloc/faq_bloc.dart';
-import 'features/find_car_owner/bloc/find_car_onwer_bloc.dart';
 import 'features/find_helper/bloc/find_helper_bloc.dart';
 import 'features/follow_up/bloc/follow_up_bloc.dart';
 import 'features/home_screen/bloc/home_new_bloc.dart';
@@ -182,9 +181,6 @@ class _MyAppState extends State<MyAppFlutterMain> with WidgetsBindingObserver {
           ),
           BlocProvider<NocRequestBloc>(
             create: (context) => NocRequestBloc(),
-          ),
-          BlocProvider<FindCarOnwerBloc>(
-            create: (context) => FindCarOnwerBloc(),
           ),
           BlocProvider<AddVehicleManagerBloc>(
             create: (context) => AddVehicleManagerBloc(),

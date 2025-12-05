@@ -149,7 +149,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               //setState(() {
               verificationCodeStr = output;
               if (verificationCodeStr != "" &&
-                  verificationCodeStr.length == otpLength) {
+                  verificati  onCodeStr.length == otpLength) {
                 setState(() {
                   errorMessage = '';
                 });

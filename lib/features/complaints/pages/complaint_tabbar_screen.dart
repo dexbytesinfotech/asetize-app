@@ -19,6 +19,7 @@ import '../../presentation/widgets/workplace_widgets.dart';
 import '../bloc/complaint_bloc/complaint_bloc.dart';
 import '../bloc/complaint_bloc/complaint_state.dart';
 import '../bloc/house_block_bloc/house_block_bloc.dart';
+import '../widgets/complaint_shimmer_effect.dart';
 import 'apply_complaint_screen.dart';
 import 'complaint_detail_screen.dart';
 
@@ -423,6 +424,9 @@ void fetchInitialData() {
       );
     }
 
+    return BlocBuilder<ComplaintBloc, ComplaintState>(
+      bloc: complaintBloc,
+  builder: (context, state) {
     return ContainerFirst(
       contextCurrentView: context,
       isSingleChildScrollViewNeed: false,
@@ -526,7 +530,7 @@ void fetchInitialData() {
                           },
                         ),
                         if (state is ComplaintLoadingState && isShowLoader)
-                          WorkplaceWidgets.progressLoader(context)
+                          ComplaintShimmerEffect()
                       ],
                     );
                   }),
@@ -536,7 +540,7 @@ void fetchInitialData() {
       ),
 
       bottomMenuView: AppPermission.instance
-              .canPermission(AppString.complaintAdd, context: context)
+              .canPermission(AppString.complaintAdd, context: context) && state is !ComplaintLoadingState
           ? CommonFloatingAddButton(
               onPressed: () {
                 Navigator.push(
@@ -547,5 +551,7 @@ void fetchInitialData() {
             )
           : const SizedBox(),
     );
+  },
+);
   }
 }

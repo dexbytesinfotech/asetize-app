@@ -18,7 +18,6 @@ import '../../features/new_sign_up/pages/new_login_with_email_screen.dart';
 import '../../features/self_profile/pages/my_house.dart';
 import '../../features/self_profile/widgets/edit_profile_screen.dart';
 import '../../features/vehicle_identification_form/pages/vehicle_from_screen.dart';
-import '../../features/find_car_owner/pages/find_car_owner_screen.dart';
 
 const dashBoardScreen = 'dashBoardScreen';
 
@@ -128,18 +127,12 @@ class Routes {
               path: 'Vehicle_Information',
               pageBuilder: TransitionsBuilder.goRoutePageBuilder(
                   child:  const AddVehicleForm())),
-          GoRoute(
-              path: 'Search_Vehicle',
-              pageBuilder: TransitionsBuilder.goRoutePageBuilder(
-                  child:  FindCarOwnerScreen())),
+
           // GoRoute(
           //     path: 'Vehicle_Details',
           //     pageBuilder: TransitionsBuilder.goRoutePageBuilder(
           //         child:  VehicleDetailsScreen())),
-          GoRoute(
-              path: 'Search_Vehicle',
-              pageBuilder: TransitionsBuilder.goRoutePageBuilder(
-                  child:  const FindCarOwnerScreen())),
+
           GoRoute(
             path: 'my_post',
             pageBuilder: TransitionsBuilder.goRoutePageBuilder(

@@ -12,10 +12,7 @@ import '../../../core/util/app_permission.dart';
 import '../../../core/util/app_theme/text_style.dart';
 import '../../../core/util/one_signal_notification/one_signal_notification_handler.dart';
 import '../../../imports.dart';
-import '../../account_books/pages/account_books_screen.dart';
 import '../../account_books/pages/add_new_payee_screen.dart';
-import '../../account_books/pages/expenses_screen.dart';
-import '../../account_books/pages/pending_confirmation.dart';
 import '../../add_transaction_receipt/page/add_transaction_form.dart';
 import '../../add_vehicle_for_manager/bloc/add_vehicle_manager_bloc.dart';
 import '../../add_vehicle_for_manager/pages/add_vehicle_for_manager_screen.dart';
@@ -38,7 +35,6 @@ import '../../my_unit/pages/my_unit_new_screen.dart';
 import '../../my_vehicle/bloc/my_vehicle_bloc.dart';
 import '../../my_vehicle/bloc/my_vehicle_event.dart';
 import '../../find_helper/pages/find_helper_screen.dart';
-import '../../find_car_owner/pages/find_car_owner_screen.dart';
 import '../../my_visitor/pages/today_my_visitor_list.dart';
 import '../../noc_list/pages/noc_request_screen.dart';
 import '../bloc/home_new_bloc.dart';
@@ -312,53 +308,54 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       homeInfoMessage(),
                       userName(),
-                      if (homeNewBloc.duesData?.isDue == true)
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              MainAppBloc.getDashboardContext,
-                              SlideLeftRoute(
-                                  widget: const MyUnitNewScreen()),
-                            );
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 14.5)
-                                .copyWith(bottom: 5),
-                            child: CommonCardView(
-                              elevation: 1.5,
-                              margin: const EdgeInsets.only(top: 12),
-                              cardColor: const Color(0xffFFEBEE),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12).copyWith(right: 1),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      homeNewBloc.duesData?.label ?? "",
-                                      style: appTextStyle.appTitleStyle(
-                                          fontWeight: FontWeight.w700),
-                                    ),
-                                    Flexible(
-                                      child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0)
-                                                .copyWith(right: 13),
-                                            child: const Icon(
-                                              Icons.arrow_forward_ios_outlined,
-                                              color: Colors.black,
-                                              size: 16,
-                                            ),
-                                          )),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      else
-                        const SizedBox(),
+                      SizedBox(height: 0,),
+                      // if (homeNewBloc.duesData?.isDue == true)
+                      //   InkWell(
+                      //     onTap: () {
+                      //       Navigator.push(
+                      //         MainAppBloc.getDashboardContext,
+                      //         SlideLeftRoute(
+                      //             widget: const MyUnitNewScreen()),
+                      //       );
+                      //     },
+                      //     child: Padding(
+                      //       padding: const EdgeInsets.symmetric(horizontal: 14.5)
+                      //           .copyWith(bottom: 5),
+                      //       child: CommonCardView(
+                      //         elevation: 1.5,
+                      //         margin: const EdgeInsets.only(top: 12),
+                      //         cardColor: const Color(0xffFFEBEE),
+                      //         child: Container(
+                      //           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12).copyWith(right: 1),
+                      //           child: Row(
+                      //             mainAxisAlignment: MainAxisAlignment.start,
+                      //             children: [
+                      //               Text(
+                      //                 homeNewBloc.duesData?.label ?? "",
+                      //                 style: appTextStyle.appTitleStyle(
+                      //                     fontWeight: FontWeight.w700),
+                      //               ),
+                      //               Flexible(
+                      //                 child: Align(
+                      //                     alignment: Alignment.centerRight,
+                      //                     child: Padding(
+                      //                       padding: const EdgeInsets.all(8.0)
+                      //                           .copyWith(right: 13),
+                      //                       child: const Icon(
+                      //                         Icons.arrow_forward_ios_outlined,
+                      //                         color: Colors.black,
+                      //                         size: 16,
+                      //                       ),
+                      //                     )),
+                      //               ),
+                      //             ],
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   )
+                      // else
+                      //   const SizedBox(),
                       homeView()
                     ],
                   ),
@@ -564,137 +561,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget recentTransactionHistory() {
-    double height = MediaQuery.of(context).size.height / 1.5;
-
-    if (userProfileBloc.selectedUnit?.isInvoicePreview == false &&
-        userProfileBloc.selectedUnit!.status == "active") {
-      return const SizedBox();
-    }
-
-    Color _parseColor(String? colorString,
-        {Color defaultColor = Colors.black}) {
-      if (colorString == null || colorString.isEmpty) return defaultColor;
-      return Color(int.parse(colorString.replaceFirst("0x", ""), radix: 16));
-    }
-
-    return BlocBuilder<MyUnitBloc, MyUnitState>(
-      bloc: myUnitBloc,
-      builder: (context, state) {
-        if (state is MyUnitInitialState) {
-          onUnitSelect(userProfileBloc.selectedUnit);
-        }
-        return myUnitBloc.statementData.isNotEmpty
-            ? Column(
-                children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 25)
-                            .copyWith(bottom: 15),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            MainAppBloc.getDashboardContext,
-                            SlideLeftRoute(
-                                widget: const MyUnitNewScreen()));
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          // Recent Transaction (A-103 )
-                          Text(
-                            'Recent Transaction (${userProfileBloc.selectedUnit?.title})',
-                            style: appTextStyle.appTitleStyle(
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          Text(
-                            AppString.viewAll,
-                            style: appTextStyle.appTitleStyle(
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.appBlueColor),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  myUnitBloc.statementData.isEmpty
-                      ? SizedBox(
-                          height: MediaQuery.of(context).size.height / 2.3,
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                    (state is MyUnitLoadingState)
-                                        ? ''
-                                        : AppString.youHaveNoStatementDetailYet,
-                                    style: appStyles.noDataTextStyle()),
-                              ],
-                            ),
-                          ),
-                        )
-                      : ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          padding: const EdgeInsets.only(
-                              top: 8, left: 15, right: 15),
-                          itemCount: myUnitBloc.statementData.length > 5
-                              ? 5
-                              : myUnitBloc.statementData.length,
-                          itemBuilder: (context, index) {
-                            return UnitStatementCardWidget(
-                              title:
-                                  myUnitBloc.statementData[index].title ?? '',
-                              amount:
-                                  myUnitBloc.statementData[index].amount ?? '',
-                              type: myUnitBloc.statementData[index].type ?? '',
-                              date: myUnitBloc.statementData[index].date ?? '',
-                              subTitle:
-                                  myUnitBloc.statementData[index].subTitle ??
-                                      '',
-                              table:
-                                  myUnitBloc.statementData[index].table ?? '',
-                              status:
-                                  myUnitBloc.statementData[index].status ?? '',
-                              statusColor: _parseColor(
-                                  myUnitBloc.statementData[index].statusColor ??
-                                      ""),
-                              balanceAmount: myUnitBloc
-                                      .statementData[index].balanceAmount ??
-                                  "",
-                              paymentMethod: myUnitBloc
-                                      .statementData[index].paymentMethod ??
-                                  "",
-                              onTap: () {
-                                ///  As per the discussion with Dinesh Sir and Jitendra Sir,
-                                ///  the statement details should be commented out until the next discussion.
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) =>
-                                //             TransactionDetailScreen(
-                                //               comeFrom: ComeFromForDetails.unitStatement,
-                                //               id: myUnitBloc.statementData[index].id ?? 0,
-                                //               tableName: myUnitBloc.statementData[index].table ?? '',
-                                //               date: myUnitBloc.statementData[index].date ?? '',
-                                //               title: myUnitBloc.statementData[index].title ?? '',
-                                //               receiptNumber: myUnitBloc.statementData[index].subTitle ?? '',
-                                //             )));
-                              },
-                            );
-                          },
-                        ),
-                  const SizedBox(
-                    height: 15,
-                  )
-                ],
-              )
-            : SizedBox();
-      },
-    );
-  }
 
   Widget homeView() {
     return BlocListener<UserProfileBloc, UserProfileState>(
@@ -811,28 +677,28 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (userProfileBloc.selectedUnit?.title != null)
-                    ResidentialUnitCard(
-                      title: AppString.myUnit,
-                      unitNumber: userProfileBloc.selectedUnit?.title ?? '',
-                      // address: 'Apollo Towers, Sector 5',
-                      onTap: () {
-                        Navigator.push(
-                          MainAppBloc.getDashboardContext,
-                          SlideLeftRoute(
-                            widget: const MyUnitNewScreen(),
-                          ),
-                        ).then((value) {
-                          if (value != null && value == true) {
-                            setState(() {
-                              isShowLoader = false;
-                            });
-                            homeNewBloc.add(OnTotalDuesEvent());
-                            // homeNewBloc.add(OnHomeNoticeBoardEvent());
-                          }
-                        });
-                      },
-                    ),
+                  // if (userProfileBloc.selectedUnit?.title != null)
+                  //   ResidentialUnitCard(
+                  //     title: AppString.myUnit,
+                  //     unitNumber: userProfileBloc.selectedUnit?.title ?? '',
+                  //     // address: 'Apollo Towers, Sector 5',
+                  //     onTap: () {
+                  //       Navigator.push(
+                  //         MainAppBloc.getDashboardContext,
+                  //         SlideLeftRoute(
+                  //           widget: const MyUnitNewScreen(),
+                  //         ),
+                  //       ).then((value) {
+                  //         if (value != null && value == true) {
+                  //           setState(() {
+                  //             isShowLoader = false;
+                  //           });
+                  //           homeNewBloc.add(OnTotalDuesEvent());
+                  //           // homeNewBloc.add(OnHomeNoticeBoardEvent());
+                  //         }
+                  //       });
+                  //     },
+                  //   ),
                     LayoutBuilder(builder: (context, constraints) {
                     final itemWidth = (constraints.maxWidth - (4 - 1) * 16) / 4;
                     return Padding(
@@ -896,20 +762,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                           widget:
                                               const FindHelperScreen()));
                                   break;
-                                case 5:
-                                  Navigator.push(
-                                      MainAppBloc.getDashboardContext,
-                                      SlideLeftRoute(
-                                          widget:
-                                              const FindCarOwnerScreen()));
-                                  break;
-                                case 6:
-                                  Navigator.push(
-                                      MainAppBloc.getDashboardContext,
-                                      SlideLeftRoute(
-                                          widget:
-                                              const AccountBooksScreen()));
-                                  break;
                                 case 7:
                                   Navigator.push(
                                       MainAppBloc.getDashboardContext,
@@ -920,13 +772,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     AppString
                                                         .managerUnitTransactionReceiptUpload
                                                   ])));
-                                  break;
-                                case 8:
-                                  Navigator.push(
-                                      MainAppBloc.getDashboardContext,
-                                      SlideLeftRoute(
-                                          widget:
-                                              const AddVehicleForManager()));
                                   break;
                                 case 9:
                                   Navigator.push(
@@ -942,15 +787,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           widget:
                                               const MyFamilyScreen()));
                                   break;
-                                case 11:
-                                  Navigator.push(
-                                      MainAppBloc.getDashboardContext,
-                                      SlideLeftRoute(
-                                          widget:
-                                              const PendingConfirmation(
-                                                  isHomePendingConfirmation:
-                                                      false)));
-                                  break;
+
                                 case 12:
                                   Navigator.push(
                                       MainAppBloc.getDashboardContext,
@@ -979,15 +816,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                           widget:
                                               const FollowUpTasksScreen(
 
-                                              )));
-                                  break;
-                                  case 16:
-                                  Navigator.push(
-                                      MainAppBloc.getDashboardContext,
-                                      SlideLeftRoute(
-                                          widget:
-                                              const ExpensesScreen(
-                                      isComeFromAddExpenses: true,
                                               )));
                                   break;
                                 case 17:
@@ -1120,7 +948,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 0,
                   ),
                   if (cardItems.isNotEmpty) noticeBoard2(),
-                  if (cardItems.isNotEmpty) recentTransactionHistory()
                 ],
               );
             }));
@@ -1154,16 +981,35 @@ class _HomeScreenState extends State<HomeScreen> {
   void initPermission() {
     cardItems = [];
     cardItems = [
-      if (AppPermission.instance
-          .canPermission(AppString.unitList, context: context))
+      // if (AppPermission.instance
+      //     .canPermission(AppString.unitList, context: context))
+      //   {
+      //     "title": "My Units",
+      //     "icon": Icons.apartment,
+      //     "id": 1,
+      //     "bgColor": const Color(0xFFe0e7ff),
+      //     "iconColor": const Color(0xff4f46e5)
+      //     // Light Purple
+      //   },
+      // if (AppPermission.instance.canPermission(AppString.manageAssetsList, context: context))
         {
-          "title": "My Units",
-          "icon": Icons.apartment,
-          "id": 1,
-          "bgColor": const Color(0xFFe0e7ff),
-          "iconColor": const Color(0xff4f46e5)
-          // Light Purple
+          "title": "My Assets",
+          "icon": Icons.list_alt_outlined,
+          "id": 21,
+          "bgColor": const Color(0xFFede9fe),
+          "iconColor": const Color(0xff7c3aed)
         },
+      if (AppPermission.instance.canPermission(AppString.manageAssetsList, context: context))
+        {
+          "title": "Assets",
+          "icon": Icons.inventory,
+          "id": 20,
+          "bgColor": const Color(0xFFfff1f2),
+          "iconColor": const Color(0xffe11d48)
+        },
+
+
+
       if (AppPermission.instance
           .canPermission(AppString.noticeList, context: context))
         {
@@ -1203,94 +1049,15 @@ class _HomeScreenState extends State<HomeScreen> {
           "iconColor": const Color(0xff2563eb)
         },
 
-      if (AppPermission.instance
-          .canPermission(AppString.accountBookList, context: context))
-        {
-          "title": "Account Books",
-          "icon": Icons.account_balance_wallet,
-          "id": 6,
-          "bgColor": const Color(0xFFf0fdf4),
-          "iconColor": const Color(0xff16a34a)
-        },
-
-      if (AppPermission.instance
-          .canPermission(AppString.managerVehicleAdd, context: context))
-        {
-          "title": "Add Vehicle",
-          "icon": Icons.directions_car,
-          "id": 8,
-          "bgColor": const Color(0xFFfff1f2),
-          "iconColor": const Color(0xffe11d48)
-        },
-      if (AppPermission.instance
-          .canPermission(AppString.manageMemberAdd, context: context))
-        {
-          "title": "Add Member",
-          "icon": Icons.person_add,
-          "id": 9,
-          "bgColor": const Color(0xFFf3e8ff),
-          "iconColor": const Color(0xff9333ea)
-        },
-
-      if (AppPermission.instance
-          .canPermission(AppString.vehicleSearch, context: context))
-        {
-          "title": "Find Vehicle Owner",
-          "icon": Icons.car_rental,
-          "id": 5,
-          "bgColor": const Color(0xFFf0fdfa),
-          "iconColor": const Color(0xff0d9488)
-        },
-
-      // if (AppPermission.instance.canPermission(AppString.familyList, context: context))
-      // {"title": "My Family", "icon": Icons.family_restroom, "id": 10,"bgColor": const Color(0xFFfff1f2),  "iconColor": const Color(0xffe11d48 )},
-
-     if (AppPermission.instance.canPermission(
-        AppString.accountPayIn,
-        context: context,
-      ))
-        {
-          "title": "Pending Confirmation",
-          "icon": Icons.hourglass_bottom,
-          "id": 11,
-          "bgColor": const Color(0xFFfffbeb),
-          "iconColor": const Color(0xffd97706)
-        },
-
-
-
-      if (AppPermission.instance.canPermission(
-          AppString.managerUnitTransactionReceiptUpload,
-          context: context))
-        {
-          "title": "Upload Transaction Receipt",
-          "icon": Icons.upload,
-          "id": 7,
-          "bgColor": const Color(0xFFfffbeb),
-          "iconColor": const Color(0xffd97706)
-        },
-
-
       // if (AppPermission.instance
-      //     .canPermission(AppString.myVisitorPermission, context: context))
+      //     .canPermission(AppString.manageMemberAdd, context: context))
       //   {
-      //     "title": "My Visitor",
-      //     "icon": Icons.group,
-      //     "id": 12,
+      //     "title": "Add Member",
+      //     "icon": Icons.person_add,
+      //     "id": 9,
       //     "bgColor": const Color(0xFFf3e8ff),
       //     "iconColor": const Color(0xff9333ea)
       //   },
-
-
-      if (AppPermission.instance.canPermission(AppString.accountPayOut, context: context))
-
-        {
-          "title": "Expenses",
-          "icon": Icons.add_card,
-          "id": 16,
-          "bgColor": const Color(0xFFfff1f2),
-          "iconColor": const Color(0xffe11d48)
-        },
 
       if (AppPermission.instance.canPermission(AppString.manageTaskList, context: context))
         {
@@ -1328,24 +1095,7 @@ class _HomeScreenState extends State<HomeScreen> {
       //   "iconColor": const Color(0xff7c3aed)
       // },
 
-      if (AppPermission.instance.canPermission(AppString.manageAssetsList, context: context))
-        {
-          "title": "Assets",
-          "icon": Icons.inventory,
-          "id": 20,
-          "bgColor": const Color(0xFFfff1f2),
-          "iconColor": const Color(0xffe11d48)
-        },
 
-
-      if (AppPermission.instance.canPermission(AppString.manageAssetsList, context: context))
-        {
-          "title": "My Asset",
-          "icon": Icons.list_alt_outlined,
-          "id": 21,
-          "bgColor": const Color(0xFFede9fe),
-          "iconColor": const Color(0xff7c3aed)
-        },
 
     ];
   }

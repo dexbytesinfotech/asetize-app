@@ -9,6 +9,7 @@ import '../../../imports.dart';
 import '../../../widgets/common_search_bar.dart';
 import '../../follow_up/widgets/common_filter_bottomSheet.dart';
 import '../../follow_up/widgets/filter_chip_widget.dart';
+import '../../follow_up/widgets/task_shimmer.dart';
 import '../bloc/assets_management_bloc.dart';
 import '../bloc/assets_management_event.dart';
 import '../bloc/assets_management_state.dart';
@@ -25,15 +26,12 @@ class AssetsListScreen extends StatefulWidget {
 
 class _AssetsListScreenState extends State<AssetsListScreen>
     with TickerProviderStateMixin {
-  // Controllers
   final TextEditingController controller = TextEditingController();
-  // Refresh & Scroll Controllers
   final RefreshController _refreshControllerAssets = RefreshController(initialRefresh: false);
   final RefreshController _refreshControllerLiability = RefreshController(initialRefresh: false);
   final ScrollController _scrollControllerAssets = ScrollController();
   final ScrollController _scrollControllerLiability = ScrollController();
-
-  // Filter Variables
+  bool isFirstLoad = true;
   String selectedCategoryName = "All Categories";
   int? selectedCategoryId;
   String selectedVendorName = "All Vendors";
@@ -41,11 +39,9 @@ class _AssetsListScreenState extends State<AssetsListScreen>
   String selectedStatus = "All Statuses";
   bool _areFiltersDirty = false;
   bool isShowLoader = true;
-
   late AssetsManagementBloc assetsManagementBloc;
   late TabController tabController;
   int tabInitialIndex = 0;
-
   void _markFiltersAsDirty() {
     if (!_areFiltersDirty) {
       setState(() => _areFiltersDirty = true);
@@ -61,7 +57,6 @@ class _AssetsListScreenState extends State<AssetsListScreen>
     if (value.toLowerCase().startsWith("all")) return "";
     return value.toLowerCase().replaceAll(" ", "_");
   }
-
   // Reset all filters & search
   void _resetFiltersAndSearch() {
     controller.clear();
@@ -72,7 +67,6 @@ class _AssetsListScreenState extends State<AssetsListScreen>
     selectedStatus = "All Statuses";
     _clearFiltersDirtyFlag();
   }
-
   // Apply Filters - Assets Tab
   void _applyFiltersForAssets({int pageKey = 1, bool isClearAssetList = false}) {
     assetsManagementBloc.add(OnGetAssetListEvent(
@@ -84,7 +78,6 @@ class _AssetsListScreenState extends State<AssetsListScreen>
       nextPageKey: pageKey,
     ));
   }
-
   // Apply Filters - My Liability Tab
   void _applyFiltersForLiability({int pageKey = 1, bool isClearAssetList = false}) {
     assetsManagementBloc.add(OnGetMyLiabilityListEvent(
@@ -140,12 +133,11 @@ class _AssetsListScreenState extends State<AssetsListScreen>
     showDialog(
       context: context,
       builder: (context) => WorkplaceWidgets.productNotFound(
-        title: "Product Not Found",
-        content:
-        'The scanned barcode ${state.barcode} is not in the system. Would you like to assign it to an existing item or add it as a new item?',
-        buttonName1: "Cancel",
-        buttonName2: "Add New Item",
-        buttonName3: "Assign To Existing Item",
+        title: AppString.productNotFoundTitle,
+        content: AppString.productNotFoundContent(state.barcode),
+        buttonName1:  AppString.cancel,
+        buttonName2: AppString.addNewItem,
+        buttonName3: AppString.assignToExistingItem,
         onPressedButton1: () => Navigator.pop(context),
         onPressedButton2: () {
           Navigator.pop(context);
@@ -176,18 +168,14 @@ class _AssetsListScreenState extends State<AssetsListScreen>
   @override
   void initState() {
     super.initState();
+    isFirstLoad = true;
     assetsManagementBloc = BlocProvider.of<AssetsManagementBloc>(context);
     assetsManagementBloc.add(OnGetAssetFilterList());
-
     assetsManagementBloc.activeAssetList.clear();
     assetsManagementBloc.liabilityAssetList.clear();
-
     _applyFiltersForAssets(isClearAssetList: true);
     _applyFiltersForLiability(isClearAssetList: true);
-
     tabController = TabController(length: 2, vsync: this);
-
-    // Main Logic: Reset & reload only if filters were changed
     tabController.addListener(() {
       if (!tabController.indexIsChanging) {
         final newIndex = tabController.index;
@@ -216,14 +204,12 @@ class _AssetsListScreenState extends State<AssetsListScreen>
         }
       }
     });
-
     _scrollControllerAssets.addListener(() {
       if (_scrollControllerAssets.position.pixels >=
           _scrollControllerAssets.position.maxScrollExtent * 0.4) {
         _onLoadMoreAssets();
       }
     });
-
     _scrollControllerLiability.addListener(() {
       if (_scrollControllerLiability.position.pixels >=
           _scrollControllerLiability.position.maxScrollExtent * 0.4) {
@@ -268,7 +254,7 @@ class _AssetsListScreenState extends State<AssetsListScreen>
           MaterialPageRoute(
             builder: (_) => const SimpleBarcodeScannerPage(
               barcodeAppBar: BarcodeAppBar(
-                appBarTitle: 'Scan Barcode',
+                appBarTitle: AppString.scanBarcode,
                 centerTitle: true,
                 enableBackButton: true,
                 backButtonIcon: Icon(Icons.arrow_back_ios_new, color: Colors.black),
@@ -307,7 +293,7 @@ class _AssetsListScreenState extends State<AssetsListScreen>
                   builder: (_) => SizedBox(
                     height: MediaQuery.of(context).size.height * 0.6,
                     child: CommonFilterBottomSheet(
-                      title: "Select Category",
+                      title: AppString.selectCategoryTitle,
                       icon: Icons.category,
                       options: ["All Categories", ...list.map((e) => e.title ?? '').toList()],
                       selectedOption: selectedCategoryName,
@@ -344,7 +330,7 @@ class _AssetsListScreenState extends State<AssetsListScreen>
                   builder: (_) => SizedBox(
                     height: MediaQuery.of(context).size.height * 0.6,
                     child: CommonFilterBottomSheet(
-                      title: "Select Vendor",
+                      title: AppString.selectVendorTitle,
                       icon: Icons.person_2_outlined,
                       options: ["All Vendors", ...list.map((e) => e.name ?? '').toList()],
                       selectedOption: selectedVendorName,
@@ -381,7 +367,7 @@ class _AssetsListScreenState extends State<AssetsListScreen>
                   builder: (_) => SizedBox(
                     height: MediaQuery.of(context).size.height * 0.6,
                     child: CommonFilterBottomSheet(
-                      title: "Select Status",
+                      title: AppString.selectStatusTitle,
                       icon: Icons.info_outline,
                       options: ["All Statuses", ...statusList],
                       selectedOption: selectedStatus,
@@ -405,7 +391,6 @@ class _AssetsListScreenState extends State<AssetsListScreen>
 
   Widget assetsTabView(AssetsManagementState state) {
     final list = assetsManagementBloc.activeAssetList;
-
     return SmartRefresher(
       controller: _refreshControllerAssets,
       enablePullDown: true,
@@ -456,7 +441,6 @@ class _AssetsListScreenState extends State<AssetsListScreen>
 
   Widget myLiabilityTabView(AssetsManagementState state) {
     final list = assetsManagementBloc.liabilityAssetList;
-
     return SmartRefresher(
       controller: _refreshControllerLiability,
       enablePullDown: true,
@@ -467,7 +451,7 @@ class _AssetsListScreenState extends State<AssetsListScreen>
       child: list.isEmpty && state is! GetAssetListLoadingState && state is! MyLiabilityListLoadingState
           ? SizedBox(
         height: MediaQuery.of(context).size.height / 2.3,
-        child: Center(child: Text("No liability assets found", style: appStyles.noDataTextStyle())),
+        child: Center(child: Text(AppString.noLiabilityAssetsFound, style: appStyles.noDataTextStyle())),
       )
           : ListView.builder(
         controller: _scrollControllerLiability,
@@ -485,7 +469,7 @@ class _AssetsListScreenState extends State<AssetsListScreen>
             assetLocation: asset.location,
             isShowBarcode: asset.isBarcode ?? false,
             showButtons: true,
-            buttonName: "Send Reminder",
+            buttonName: AppString.sendReminder,
             buttonIcon: Icons.send,
             onViewDetail: () {
               Navigator.push(
@@ -506,15 +490,17 @@ class _AssetsListScreenState extends State<AssetsListScreen>
   @override
   Widget build(BuildContext context) {
     final canManageAssets = AppPermission.instance.canPermission(AppString.manageAssetsCreate, context: context);
-
-    return ContainerFirst(
-      contextCurrentView: context,
-      isSingleChildScrollViewNeed: false,
-      isFixedDeviceHeight: false,
-      isListScrollingNeed: true,
-      isOverLayStatusBar: false,
-      appBarHeight: 56,
-      appBar: CommonAppBar(
+    return BlocBuilder<AssetsManagementBloc, AssetsManagementState>(
+      bloc: assetsManagementBloc,
+      builder: (context, state) {
+      return ContainerFirst(
+       contextCurrentView: context,
+       isSingleChildScrollViewNeed: false,
+       isFixedDeviceHeight: false,
+       isListScrollingNeed: true,
+       isOverLayStatusBar: false,
+       appBarHeight: 56,
+       appBar: CommonAppBar(
         title: AppString.assetsManagement,
         isHideBorderLine: true,
         action: canManageAssets
@@ -551,9 +537,19 @@ class _AssetsListScreenState extends State<AssetsListScreen>
           if (state is SendAssetAcceptReminderDoneState) {
             WorkplaceWidgets.successToast(state.message);
           }
+
+          if (state is GetAssetListDoneState || state is MyLiabilityListDoneState) {
+            if (isFirstLoad) {
+              setState(() {
+                isFirstLoad = false;
+              });
+            }
+          }
+
           if (state is CheckBarcodeDoneState) {
             WorkplaceWidgets.successToast(state.message);
-            if (state.isAssign == false) {
+
+          if (state.isAssign == false) {
               notFoundBarcodePopup(state);
             } else {
               Navigator.push(
@@ -583,8 +579,8 @@ class _AssetsListScreenState extends State<AssetsListScreen>
                       indicatorWeight: 4,
                       unselectedLabelColor: AppColors.greyUnselected,
                       tabs: [
-                        Text('Assets', style: appStyles.tabTextStyle()),
-                        Text('My Liability', style: appStyles.tabTextStyle()),
+                        Text(AppString.assetsTab, style: appStyles.tabTextStyle()),
+                        Text(AppString.myLiabilityTab, style: appStyles.tabTextStyle()),
                       ],
                     ),
                     Expanded(
@@ -598,14 +594,17 @@ class _AssetsListScreenState extends State<AssetsListScreen>
                     ),
                   ],
                 ),
-                if ((state is GetAssetListLoadingState || state is MyLiabilityListLoadingState || state is SendAssetAcceptReminderLoadingState) && isShowLoader)
-                  WorkplaceWidgets.progressLoader(context),
+                if (isFirstLoad && (state is GetAssetListLoadingState || state is MyLiabilityListLoadingState || state is SendAssetAcceptReminderLoadingState) && isShowLoader)
+                  TaskFullPageShimmer()
+                else if (!isFirstLoad &&
+                    (state is GetAssetListLoadingState || state is MyLiabilityListLoadingState || state is SendAssetAcceptReminderLoadingState) && isShowLoader)
+                  WorkplaceWidgets.progressLoader(context)
               ],
             );
           },
         ),
       ),
-      bottomMenuView: AppPermission.instance.canPermission(AppString.manageAssetsScan, context: context)
+      bottomMenuView: AppPermission.instance.canPermission(AppString.manageAssetsScan, context: context) && assetsManagementBloc.activeAssetList.isNotEmpty
           ? CommonCenterBarcodeScannerButton(
         onPressed: () async {
           var res = await Navigator.push(
@@ -613,7 +612,7 @@ class _AssetsListScreenState extends State<AssetsListScreen>
             MaterialPageRoute(
               builder: (_) => const SimpleBarcodeScannerPage(
                 barcodeAppBar: BarcodeAppBar(
-                  appBarTitle: 'Scan Barcode',
+                  appBarTitle: AppString.scanBarcode,
                   centerTitle: true,
                   enableBackButton: true,
                   backButtonIcon: Icon(Icons.arrow_back_ios_new, color: Colors.black),
@@ -628,5 +627,7 @@ class _AssetsListScreenState extends State<AssetsListScreen>
       )
           : const SizedBox(),
     );
+  },
+);
   }
 }

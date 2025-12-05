@@ -55,6 +55,7 @@
         "share_handler",
         "share_plus",
         "shared_preferences",
+        "shimmer",
         "simple_barcode_scanner",
         "smooth_page_indicator",
         "sms_autofill",
@@ -426,6 +427,13 @@
     {
       "name": "photo_view",
       "version": "0.15.0",
+      "dependencies": [
+        "flutter"
+      ]
+    },
+    {
+      "name": "shimmer",
+      "version": "3.0.0",
       "dependencies": [
         "flutter"
       ]

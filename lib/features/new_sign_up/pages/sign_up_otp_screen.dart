@@ -127,26 +127,26 @@ class _OtpScreenState extends State<OtpScreen> {
                   PrefUtils().saveBool(WorkplaceNotificationConst.isEmailScreen,
                       widget.isEmailScreen);
 
-                  Navigator.pushReplacement(
-                    context,
-                    SlideLeftRoute(
-                      widget: CompleteProfileScreen(
-                        isSocietyNotFound: widget.isSocietyNotFound,
-                      ),
-                    ),
-                  );
+                  // Navigator.pushReplacement(
+                  //   context,
+                  //   SlideLeftRoute(
+                  //     widget: CompleteProfileScreen(
+                  //       isSocietyNotFound: widget.isSocietyNotFound,
+                  //     ),
+                  //   ),
+                  // );
                 } else {
                   if (state.isCompanyIdSaved == true) {
                     PrefUtils().saveBool(
                         WorkplaceNotificationConst.isUserLoggedInC, true);
                     context.go('/dashBoard');
                   } else {
-                    Navigator.push(
-                      context,
-                      SlideLeftRoute(
-                        widget: const SearchYourSocietyForm(),
-                      ),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   SlideLeftRoute(
+                    //     widget: const SearchYourSocietyForm(),
+                    //   ),
+                    // );
                   }
                 }
                 return;

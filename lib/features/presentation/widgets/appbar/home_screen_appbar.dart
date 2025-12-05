@@ -202,53 +202,53 @@ class _HomeScreenAppBarState extends State<HomeScreenAppBar> {
                         if (index == listOfCompanies.length) {
                           return Column(
                             children: [
-                              const Divider(),
-                              ListTile(
-                                onTap: () {
-                                  widget.onOtherOptionSelect
-                                      ?.call('Add Flat/Villa/Office');
-                                  Navigator.pop(context);
-                                },
-                                leading: Container(
-                                  padding: const EdgeInsets.all(4),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                          color: Colors.black.withOpacity(0.8))),
-                                  child: Icon(
-                                    Icons.add,
-                                    color: Colors.black.withOpacity(0.8),
-                                  ),
-                                ),
-                                title: Text(
-                                  "Add Flat/Villa/Office",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black.withOpacity(0.8)),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Container(
-                                    color: Colors.transparent,
-                                    child: Container(
-                                      height: 4,
-                                      width: 60,
-                                      margin: const EdgeInsets.only(
-                                          top: 12, bottom: 4, left: 12, right: 12),
-                                      alignment: Alignment.center,
-                                      padding: const EdgeInsets.symmetric(vertical: 10),
-                                      decoration: BoxDecoration(
-                                          color: Colors.grey.shade200,
-                                          borderRadius: BorderRadius.circular(5)),
-                                    ),
-                                  ),
-                                ),
-                              ),
+                              // const Divider(),
+                              // ListTile(
+                              //   onTap: () {
+                              //     widget.onOtherOptionSelect
+                              //         ?.call('Add Flat/Villa/Office');
+                              //     Navigator.pop(context);
+                              //   },
+                              //   leading: Container(
+                              //     padding: const EdgeInsets.all(4),
+                              //     decoration: BoxDecoration(
+                              //         shape: BoxShape.circle,
+                              //         border: Border.all(
+                              //             color: Colors.black.withOpacity(0.8))),
+                              //     child: Icon(
+                              //       Icons.add,
+                              //       color: Colors.black.withOpacity(0.8),
+                              //     ),
+                              //   ),
+                              //   title: Text(
+                              //     "Add Flat/Villa/Office",
+                              //     style: TextStyle(
+                              //         fontWeight: FontWeight.w500,
+                              //         color: Colors.black.withOpacity(0.8)),
+                              //   ),
+                              // ),
+                              // InkWell(
+                              //   onTap: () {
+                              //     Navigator.pop(context);
+                              //   },
+                              //   child: Align(
+                              //     alignment: Alignment.center,
+                              //     child: Container(
+                              //       color: Colors.transparent,
+                              //       child: Container(
+                              //         height: 4,
+                              //         width: 60,
+                              //         margin: const EdgeInsets.only(
+                              //             top: 12, bottom: 4, left: 12, right: 12),
+                              //         alignment: Alignment.center,
+                              //         padding: const EdgeInsets.symmetric(vertical: 10),
+                              //         decoration: BoxDecoration(
+                              //             color: Colors.grey.shade200,
+                              //             borderRadius: BorderRadius.circular(5)),
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
                             ],
                           );
                         }

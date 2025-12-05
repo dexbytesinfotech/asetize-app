@@ -18,20 +18,20 @@ abstract class ConstantC {
 }
 
 
-
 abstract class ApiConst {
+
 
   static const bool isProduction = false;
 
   static const String baseUrlDevC =
-      'https://api-community.dexbytes.in/'; //Development
+      'https://asetize-api.dexbytes.in/'; //Development
 
   static const String baseUrlProC =
       'https://api.societypilot.com/';// Production
 
   static const String baseUrlC = isProduction ? baseUrlProC : baseUrlDevC;
 
-  static const String baseUrlNonHttpC = "api-community.dexbytes.in";
+  static const String baseUrlNonHttpC = "asetize-api.dexbytes.in";
 
   static const String baseUrlNonProdHttpC = "api.societypilot.com";
 
@@ -476,17 +476,14 @@ abstract class ApiConst {
   static const String assetsCategory =
       '${baseUrlC}api/assets/category';
 
-
   static const String assetsLocations =
       '${baseUrlC}api/assets/locations';
-
 
   static const String showDummyData =
       'https://jsonplaceholder.typicode.com/users';
 
   static const String getVoucherNumber =
       '${baseUrlC}api/vouchers/next';
-
 
   static const String getTaskFiltersList =
       '${baseUrlC}api/filters/tasks';
@@ -506,28 +503,20 @@ abstract class ApiConst {
   static const String markTaskAsComplete =
       '${baseUrlC}api/tasks';
 
-
   static const String addQuotation =
       '${baseUrlC}api/tasks';
-
 
   static const String assignTask =
       '${baseUrlC}api/tasks';
 
-
   static const String approvedQuotation =
       '${baseUrlC}api/quotations';
-
-
 
   static const String rejectQuotation =
       '${baseUrlC}api/quotations';
 
-
-
   static const String updateTaskComment =
       '${baseUrlC}api/tasks';
-
 
   static const String createFollowUp =
       '${baseUrlC}api/tasks';
@@ -539,7 +528,6 @@ abstract class ApiConst {
       '${baseUrlC}api/tasks';
   static const String getCommentList =
       '${baseUrlC}api/tasks';
-
 
   static const String getAssetDetailList =
       '${baseUrlC}api/assets';
@@ -580,10 +568,8 @@ abstract class ApiConst {
   static const String addAsset =
       '${baseUrlC}api/assets';
 
-
   static const String assetFilterList =
       '${baseUrlC}api/assets/filters';
-
 
   static const String assetStatusChange=
       '${baseUrlC}api/assets';
@@ -606,9 +592,7 @@ abstract class ApiConst {
   static const String assetAcceptRemainder=
       '${baseUrlC}api/assets';
 
-
   static const String assetHistory=
       '${baseUrlC}api/assets';
-
 
 }

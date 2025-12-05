@@ -80,6 +80,7 @@ abstract class AppString {
   static const String selectExpenseDate = 'Select Expense Date';
   static const String enterDescription = 'Enter a Description';
   static const String description = 'Description';
+  static const String assignBarcode = 'Assign Barcode';
   static const String preRegisterVisitor = 'Pre-Register Visitor';
   static const String preApproval = 'Create Visitor Pass';
   static const String visitorType = 'Visitor Type';
@@ -464,7 +465,28 @@ abstract class AppString {
   static const String holidays = 'Holidays';
   static const String newVersionReady = 'New Version Is Ready!';
   static const String committee = 'Committee';
+  static const String managers = 'Managers';
   static const String noHolidays = 'No Holiday';
+  static const String addNewItem = 'Add New Item';
+  static const String productNotFoundTitle = 'Product Not Found';
+
+  static String productNotFoundContent(String barcode) {
+    return 'The scanned barcode $barcode is not in the system. Would you like to assign it to an existing item or add it as a new item?';
+  }
+
+
+  static const String selectCategoryTitle = "Select Category";
+  static const String allCategories = "All Categories";
+
+  static const String selectVendorTitle = "Select Vendor";
+  static const String allVendors = "All Vendors";
+
+  static const String selectStatusTitle = "Select Status";
+  static const String allStatuses = "All Statuses";
+  static const String assets = "All Statuses";
+
+  static const String assignToExistingItem = 'Assign To Existing Item';
+  static const String scanBarcode = 'Scan Barcode';
   static const String enterVehicleNumber = 'Enter vehicle number';
   static const String receiptsUploadedSuccessfully =
       "Receipts uploaded successfully!";
@@ -472,6 +494,10 @@ abstract class AppString {
 
   static const String updateNow = 'Update Now';
   static const String updateContent= "Get the security updates and improved features.";
+  static const String assetsTab = 'Assets';
+  static const String myLiabilityTab = 'My Liability';
+
+  static const String noLiabilityAssetsFound = "No liability assets found";
 
   static const String oTPCodeVerification = "OTP Code Verification";
   static const String oTPVerification = "OTP Verification";
@@ -554,6 +580,7 @@ abstract class AppString {
   static const String category = "Category";
   static const String payeeTo = "Payee To";
   static const String selectPayeeTo = "Select Payee To";
+  static const String sendReminder = "Send Reminder";
 
   static const String  filters =  'Filters';
   static const String  chooseDuration =  'Choose Duration';
@@ -605,7 +632,7 @@ abstract class AppString {
   static const String noContactsFound = 'No contacts found';
   static const String oneGuestMustBeSelected = 'At least one guest must be selected.';
   static const String findVehicle = "Find Vehicle";
-  static const String findVehicleOwner = "Find Vehicle Owner";
+  static const String   findVehicleOwner = "Find Vehicle Owner";
   static const String myVehicle = "My Vehicle";
   static const String myVehicles = "My Vehicles";
   static const String selectTimeInFuture = 'Please select a time in the future.';
@@ -1174,5 +1201,51 @@ abstract class AppString {
 
 
   static const suspenseEntryAddSuccessfully  = 'Suspense Entry AddSuccessfully!';
+
+
+
+
+  static const String enterAssetTitle          = 'Enter Asset Title';
+  static const String selectCategory           = 'Select Category';
+  static const String searchCategory           = 'Search Category';
+  static const String searchVendor             = 'Search Vendor';
+  static const String selectPurchaseDate       = 'Select Purchase Date';
+  static const String enterSmallDescription    = 'Enter a Small Description';
+  static const String selectExpiryMonths       = 'Select Expiry Months';
+  static const String selectWarranty           = 'Select Warranty';
+  static const String selectWarrantyDate       = 'Select Warranty Date';
+  static const String enterPurchaseCost        = 'Enter Purchase Cost';
+  static const String enterModelNumber         = 'Enter Model Number';
+  static const String enterManufacture         = 'Enter Manufacture';
+  static const String enterLongDescription     = 'Enter a Long Description';
+  static const String enterAssetLocation       = 'Enter a Asset Location';
+  static const String clickToUploadImages      = 'Click to upload images';
+
+  /// Labels (used in LabelWidget)
+  static const String titleLabel               = 'Title';
+  static const String categoryLabel            = 'Category';
+  static const String vendorLabel              = 'Vendor';
+  static const String purchaseDateLabel        = 'Purchase Date';
+  static const String smallDescriptionLabel    = 'Small Description';
+  static const String warrantyLabel             = 'Warranty';
+  static const String purchaseCostLabel         = 'Purchase Cost';
+  static const String modelNumberLabel          = 'Model Number';
+  static const String manufactureLabel          = 'Manufacture';
+  static const String longDescriptionsLabel    = 'Long Descriptions';
+  static const String assetLocationLabel        = 'Asset Location';
+
+
+
+  static const String addNewCategory        = 'Add New Category';
+  static const String categoryName        = 'Category Name';
+  static const String  enterCategoryName        =  "Enter category name";
+  static const String  addCategory        =  "Add Category";
+
+  static const String addNewVendor       = 'Add New Vendor';
+  static const String vendorName        = 'Vendor Name';
+  static const String  enterVendorName        =  "Enter vendor name";
+  static const String  addVendor       =  "Add Vendor";
+  static const String  uploadImage       =  "Click to upload images";
+  static const String  uploadImageType      =    "Supports JPG, PNG, GIF up to 5MB each";
 }
 

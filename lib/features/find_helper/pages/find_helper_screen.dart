@@ -5,6 +5,7 @@ import '../../../core/util/app_theme/text_style.dart';
 import '../../../imports.dart';
 import '../../../widgets/common_search_bar.dart';
 import '../../member/pages/member_profile_bottom_sheet.dart';
+import '../../noc_list/widgets/noc_request_shimmer.dart';
 import '../widgets/helper_bottom_sheet.dart';
 import '../widgets/helper_card_widget.dart';
 import '../bloc/find_helper_bloc.dart';
@@ -142,12 +143,12 @@ class _FindHelperScreenState extends State<FindHelperScreen> {
                     searchedItems = findHelperBloc.findHelperData;
                   }
                 }
-                if (state is FindHelperLoadingState && isLoader) {
-                  return SizedBox(
-                    height: MediaQuery.of(context).size.height/2,
-                    child: WorkplaceWidgets.progressLoader(context),
-                  );
-                }
+                // if (state is FindHelperLoadingState && isLoader) {
+                //   return SizedBox(
+                //     height: MediaQuery.of(context).size.height/2,
+                //     child: WorkplaceWidgets.progressLoader(context),
+                //   );
+                // }
                 return SmartRefresher(
                   controller: _refreshController,
                   enablePullDown: true,
@@ -157,7 +158,7 @@ class _FindHelperScreenState extends State<FindHelperScreen> {
                       SingleChildScrollView(
                         child: Column(
                           children: [
-                            searchedItems.isEmpty
+                            searchedItems.isEmpty && state is !FindHelperLoadingState
                                 ? SizedBox(
                               height: MediaQuery.of(context).size.height / 1.2,
                               width: MediaQuery.of(context).size.width,
@@ -194,7 +195,8 @@ class _FindHelperScreenState extends State<FindHelperScreen> {
                           ],
                         ),
                       ),
-                    ],
+                      if (state is FindHelperLoadingState && isLoader)
+                        NocRequestShimmer()                    ],
                   ),
                 );
               },

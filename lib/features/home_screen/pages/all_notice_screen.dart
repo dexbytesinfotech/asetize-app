@@ -3,6 +3,7 @@ import 'package:asetize/widgets/common_card_view.dart';
 import '../../../core/util/app_theme/text_style.dart';
 import '../../../core/util/one_signal_notification/one_signal_notification_handler.dart';
 import '../../../imports.dart';
+import '../../noc_list/widgets/noc_request_shimmer.dart';
 import '../bloc/home_new_bloc.dart';
 import '../bloc/home_new_event.dart';
 import '../bloc/home_new_state.dart';
@@ -68,8 +69,8 @@ class _AllNoticeScreenState extends State<AllNoticeScreen> {
           if (state is NoticeboardLoadingState) {
 
             if (isShowLoader == true) {
-              return SizedBox(height: height, child: WorkplaceWidgets.progressLoader(context));
-            }
+              return                         NocRequestShimmer()   ;
+          }
 
           }
           return
